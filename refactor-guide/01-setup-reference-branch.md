@@ -90,6 +90,9 @@ Create `REFACTOR_CONFIG.md` in the project root with the following structure:
 - [ ] Step 2: Codebase assessment
 - [ ] Step 3: Feature decomposition
 - [ ] Step 4: Gherkin extraction
+- [ ] Step 5: Bootstrap rebuild
+- [ ] Step 6: Rebuild (slice-by-slice)
+- [ ] Step 7: Cutover & archive
 ```
 
 Update the paths to match your actual project structure.

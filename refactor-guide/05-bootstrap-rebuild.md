@@ -30,7 +30,10 @@ The Get Started framework expects certain planning artifacts to exist before Sli
 |---|---|
 | **User Story (Step 1a)** | Comes from the assessment (Step 2) — what the old project does, restated as a user story |
 | **Tech Stack (Step 1b)** | Same as the old project, or upgraded — the user decides |
+| **MCP Integrations (Step 1c)** | Same as Get Started — search for MCPs, configure in `.claude/settings.local.json` |
+| **Architecture (Step 1d)** | Comes from the assessment dependency graph and inventory (Step 2) — restated as workspace layout and data flow |
 | **Vertical Slices (Step 1e)** | Come directly from the decomposition output (Step 3) — the feature-to-slice map and slice dependency order |
+| **Plan Peer Review (Step 1f)** | Same as Get Started — mandatory. The full plan goes through 3+ model peer review before any code |
 
 The user may adjust any of these. The assessment and decomposition provide the starting point, not a locked-in plan.
 
@@ -95,3 +98,8 @@ After this step:
 - Slice 0 is complete — CLAUDE.md, contracts, skills, and infrastructure are in place
 - The CLAUDE.md refactor addendum gives Claude the context it needs: where the old code lives, which rules are overridden, and what to track
 - The project is ready for slice-by-slice rebuilding (Step 6)
+
+---
+
+**Previous step:** [Step 4b: Gherkin Review & Chunking](04b-gherkin-review-and-chunking.md)
+**Next step:** [Step 6: Rebuild Workflow](06-rebuild-workflow.md)

@@ -19,7 +19,12 @@ Phases A through J are the same as any Get Started project:
 - **Phase A** — CTO plans the slice
 - **Phase B** — QA Lead writes test specs (Gherkin scenarios)
 - **Phase C** — Dev implements
-- **Phase D-I** — Review, testing, refinement
+- **Phase D** — Self-reflection by coders
+- **Phase E** — Peer review (3+ external models)
+- **Phase F** — QA swarm + Whiskey Team + UX Sense Check
+- **Phase G** — Autonomous fix verification + Red Team escalation
+- **Phase H** — Regression + implicit behavior regression
+- **Phase I** — Documentation update
 - **Phase J** — Gate check, slice completion
 
 Do not invent new phases. Do not skip phases. The refactor rebuild succeeds because it uses the same disciplined workflow as a greenfield project.
@@ -121,3 +126,8 @@ After each slice:
 - Comparative metrics are recorded in `refactor/comparative-metrics.md`
 - Behavior Coverage Matrix is updated in `refactor/behavior-coverage-matrix.md`
 - The rebuild progresses one slice at a time until all slices are complete, then proceed to Step 7
+
+---
+
+**Previous step:** [Step 5: Bootstrap Rebuild](05-bootstrap-rebuild.md)
+**Next step:** [Step 7: Cutover & Archive](07-cutover-archive.md)

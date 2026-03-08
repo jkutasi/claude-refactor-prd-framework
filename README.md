@@ -72,7 +72,8 @@ Once the rebuild is complete, the refactor scaffolding gets archived and the pro
 │   └── GHERKIN-CHUNKING-TEMPLATE.md
 │
 ├── regression-templates/                # Tracking correct behavior coverage
-│   └── BEHAVIOR-COVERAGE-MATRIX-TEMPLATE.md
+│   ├── BEHAVIOR-COVERAGE-MATRIX-TEMPLATE.md
+│   └── COMPARATIVE-METRICS-TEMPLATE.md
 │
 ├── cutover-templates/                   # Final switchover checklist
 │   └── CUTOVER-CHECKLIST-TEMPLATE.md

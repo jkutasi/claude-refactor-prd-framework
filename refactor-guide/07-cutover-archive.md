@@ -42,6 +42,7 @@ Move all refactor-specific artifacts to `archive/refactor/`:
 - `refactor/assessment/` — inventory, feature map, dependency graph, debt catalog, risk assessment
 - `refactor/decomposition/` — feature-to-slice map, slice dependency order
 - `refactor/gherkin/broad-behavior-spec.md` — the broad extraction (per-slice Gherkin stays in `features/`)
+- `refactor/templates/` — framework templates deployed during Step 1.5
 - `refactor/behavior-coverage-matrix.md`
 - `refactor/comparative-metrics.md`
 - `REFACTOR_CONFIG.md`
@@ -131,3 +132,7 @@ This is expected for large rebuilds. Discovery during implementation often revea
 ## Outcome
 
 The refactor journey is complete. The project has been rebuilt from scratch using the Get Started framework's disciplined slice-by-slice workflow. The old code is preserved as a historical reference. The new code is clean, tested, and governed by the same contracts and quality gates as any Get Started project.
+
+---
+
+**Previous step:** [Step 6: Rebuild Workflow](06-rebuild-workflow.md)

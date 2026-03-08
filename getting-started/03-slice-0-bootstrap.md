@@ -8,15 +8,17 @@ Slice 0 creates every file, directory, skill, template, and script so that when 
 
 ### 3a. Create CLAUDE.md Contract
 
-> Load `contract-templates/CLAUDE-MD-TEMPLATE.md` (core, ~400 lines) and customize for your project.
-> Also copy `contract-templates/articles/ directory (one file per article, loaded on demand)` — this is loaded on demand, NOT at session start.
+> Load `contract-templates/CLAUDE-MD-TEMPLATE.md` (core, ~90 lines) and customize for your project.
+> Also load and deploy the extracted templates referenced by CLAUDE.md:
+> - `contract-templates/AGENT-TEAMS-TEMPLATE.md` — team roster, sub-agent catalog, MCP architecture
+> - `contract-templates/ARTICLES-INDEX-TEMPLATE.md` — articles 1-34 quick reference
+> - `contract-templates/PER-SLICE-WORKFLOW-TEMPLATE.md` — Phases A-J with gates and checklists
+> - `contract-templates/articles/` directory — one file per article, loaded on demand
 
 The core contract contains:
 - CTO role definition (Delegate Mode, never writes code)
 - Nuclear Rules with verification gates
-- Agent Teams structure
-- Per-slice workflow with all phases
-- Articles quick-reference table (points to the appendix for full details)
+- Load-on-demand pointers to Agent Teams, Articles, Per-Slice Workflow, and Security
 
 The articles appendix contains the full definitions of Articles 1-34 (code authorship, peer review, QA, Red Team, Whiskey Team, UX Sense Check, Test-First Specification Protocol, Test Peer Review, User Scope Confirmation, Code Architecture Standards). Agents load it on demand when they need a specific article's details.
 

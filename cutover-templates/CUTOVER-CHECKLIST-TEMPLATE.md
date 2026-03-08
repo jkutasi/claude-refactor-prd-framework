@@ -29,6 +29,7 @@ Execute in order:
 - [ ] Move `refactor/assessment/` → `archive/refactor/assessment/`
 - [ ] Move `refactor/decomposition/` → `archive/refactor/decomposition/`
 - [ ] Move `refactor/gherkin/broad-behavior-spec.md` → `archive/refactor/`
+- [ ] Move `refactor/templates/` → `archive/refactor/templates/`
 - [ ] Move `refactor/behavior-coverage-matrix.md` → `archive/refactor/`
 - [ ] Move `refactor/comparative-metrics.md` → `archive/refactor/`
 - [ ] Move `REFACTOR_CONFIG.md` → `archive/refactor/`

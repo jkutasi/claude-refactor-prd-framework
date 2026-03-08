@@ -51,5 +51,5 @@ Feature: {SLICE_NAME}
 ## Output
 
 - Per-slice `.feature` files saved to `features/slice-N-{name}.feature`
-- Follow Get Started Gherkin conventions (see `examples/gherkin-examples.md`)
+- Follow Get Started Gherkin conventions (see `gherkin-examples.md` in the framework's `examples/` directory — deployed to `refactor/templates/` during Step 1.5 if needed)
 - Each file is self-contained — a slice's Gherkin should be understandable without reading other slices
