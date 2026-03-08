@@ -1,0 +1,209 @@
+# Per-Slice Development Workflow
+
+> **Loaded from CLAUDE.md on demand.** This file contains the full phase-by-phase workflow for each slice. The CTO loads this file at the start of each slice and follows it step by step.
+
+**CRITICAL: Every phase is MANDATORY. Skipping any phase is a CONTRACT VIOLATION.**
+**REMINDER: You are the CTO Orchestrator. You spawn teammates and sub-agents for ALL implementation.**
+
+```
+PHASE A: PREPARATION
+1. CTO reviews slice requirements + Gherkin acceptance criteria
+2. Researcher gathers docs, builds/updates skills files
+3. CTO determines whether slice is frontend-touching (for UX Sense Check activation)
+4. Architect creates per-slice detailed diagrams (sequence + focused ER) -- non-blocking
+
+PHASE A.5: DOC BOOTSTRAP + DIAGRAM REVIEW
+   Slice 0: CTO delegates to Scribe to create initial skeleton (DOCS_MAP.md,
+   PROJECT.md, contract stubs). Architect creates high-level overview diagrams
+   (System Architecture, Data Model ER, User Flow, Slice Dependency Graph) for
+   user review. Runs BEFORE any coder agents are spawned.
+   Slices 1+: Per-slice detailed diagrams created in Phase A (non-blocking).
+
+PHASE A.6: USER SCOPE CONFIRMATION (Article 19) -- MANDATORY
+5. CTO presents slice scope to user: summary, Gherkin scenarios, diagrams, Goal Achievement Test
+6. If scope changed from original plan due to learnings from prior slices, highlight what changed and why
+7. User responds: APPROVE (proceed) or REVISE (provide feedback, CTO adjusts, re-presents)
+8. No iteration limit -- user decides when they are satisfied
+
+   +------------------------------------------------------------------+
+   | USER SCOPE GATE A.6: Before proceeding to Red Team:              |
+   | [] "User reviewed slice scope (summary + Gherkin + diagrams)"    |
+   | [] "User responded APPROVE"                                      |
+   | [] "Any scope changes from original plan were highlighted"        |
+   +------------------------------------------------------------------+
+
+PHASE A.7: RED TEAM PRE-BUILD GATE (Article 14a) -- MANDATORY
+9. Red Team sub-agent reviews the USER-CONFIRMED slice plan and architecture
+10. Red Team evaluates all 10 attack dimensions
+11. Red Team submits plan to external model for hostile review
+12. Red Team issues verdict: APPROVE / REVISE / BLOCK
+13. If BLOCK: implementation HALTS. Owner must override or plan must change.
+14. If REVISE: address required actions, re-submit to Red Team.
+15. If APPROVE: proceed to Phase B.
+    Artifact: reviews/slice-N-red-team-pre-build.md
+
+PHASE B: GHERKIN AUDIT + TEST SPECIFICATION + TEST PEER REVIEW (Article 17, 18)
+
+   B.1: GHERKIN AUDIT (max 3 cycles)
+   12. QA Lead audits Gherkin for completeness (traceability matrix) + quality
+   13. Every user story element must map to at least one Gherkin scenario
+   14. Quality check: unambiguous, concrete values, testable outcomes, NFR coverage
+   15. If gaps: write missing Gherkin, re-audit (max 3 cycles, then owner sign-off)
+
+   B.2: TEST SPECIFICATION (different agents from implementation coders)
+   16. Architect defines skeletal interfaces (function sigs, class stubs, type stubs)
+   17. QA Lead spawns test-writer sub-agents (NOT implementation coders)
+   18. Test-writers write ALL tests: unit, integration, E2E definitions
+   19. ALL tests must be RED (import errors or assertion failures)
+   20. Tests that PASS = bad test, must be fixed
+
+   B.3: TEST PEER REVIEW (3+ models, parallel)
+   21. 3 peer reviewers review test code in parallel (same process as code review)
+   22. Consensus issues (2+ reviewers) = mandatory test fixes
+   23. Fixed tests re-validated: still RED against skeletal interfaces
+
+   +------------------------------------------------------------------+
+   | TEST SPEC GATE B: Before proceeding to implementation:           |
+   | [] "Gherkin Audit PASSED (completeness + quality)"               |
+   | [] "All tests written by test-writer sub-agents (not coders)"    |
+   | [] "All tests are RED (import errors or assertion failures)"     |
+   | [] "Skeletal interfaces exist for all tested modules"            |
+   | [] "Test code peer-reviewed by 3+ external models"               |
+   | [] "reviews/slice-N-test-spec.md EXISTS on disk"                 |
+   | [] "reviews/slice-N-test-review.md EXISTS on disk"               |
+   | [] "CTO did NOT write any test code directly (Nuclear Rule 1)"   |
+   +------------------------------------------------------------------+
+
+PHASE C: IMPLEMENTATION
+24. CTO assigns implementation coder teammates with focused module scope
+25. Coders receive failing tests + spec, write code until all tests PASS
+26. Coders do NOT modify tests (only implementation code)
+
+   +-------------------------------------------------------------+
+   | NUCLEAR GATE C: Before proceeding, CTO must confirm:        |
+   | [] "I did NOT write any code myself in this phase"           |
+   | [] "All code was produced by spawned teammates/sub-agents"   |
+   | [] "I can name each agent and what they produced"            |
+   | [] "All tests from Phase B now PASS"                         |
+   | [] "All code follows Article 20 architecture standards"      |
+   | If any box is unchecked: STOP. Violation of Nuclear          |
+   | Rule 1. Report to owner and re-do Phase C correctly.         |
+   +-------------------------------------------------------------+
+
+PHASE D: SELF-REFLECTION (mandatory, before peer review)
+27. Each coder re-reads their code, identifies issues, proposes improvements
+28. CTO reviews reflection, assigns self-identified fixes
+
+PHASE E: PEER REVIEW (3+ models, parallel)
+29. 3 peer reviewers run in parallel, return findings
+
+   +--------------------------------------------------------------+
+   | NUCLEAR GATE E: Before proceeding, CTO must confirm:         |
+   | [] "Reviewer 1 ({model}) returned findings: {summary}"       |
+   | [] "Reviewer 2 ({model}) returned findings: {summary}"       |
+   | [] "Reviewer 3 ({model}) returned findings: {summary}"       |
+   | [] "ALL reviewers have reported. I am not proceeding with     |
+   |     partial reviews."                                         |
+   | If any box is unchecked: STOP. Violation of Nuclear           |
+   | Rule 2. Wait, retry, or report to owner. Do NOT continue.    |
+   +--------------------------------------------------------------+
+
+30. CTO synthesizes: consensus issues (2+ reviewers) = mandatory fixes
+
+PHASE F: QA SWARM + WHISKEY TEAM + UX SENSE CHECK (AUTONOMOUS FIX)
+31. Standard QA swarm runs in parallel (red team framing -- Article 7c):
+    - QA Stats, QA Code Quality, QA Data Integrity, QA Security, QA UI/UX
+    - Each QA agent applies Autonomous Defect Resolution Protocol (Article 17e):
+      find bug -> spawn fix sub-agent -> AUDIT/RED/GREEN/REGRESSION/CLASS SCAN/COMMIT
+32. Whiskey Team adversarial QA runs (all 8 test categories -- Article 15)
+    - Whiskey Team applies same autonomous fix protocol for all findings
+33. Implicit Behavior Regression check runs (all 6 categories -- Article 15b)
+34. UX Sense Check runs via agent-browser with all personas
+    (Article 16 -- frontend slices only)
+35. QA Manager synthesizes all findings + autonomous fix results into report
+
+PHASE G: AUTONOMOUS FIX VERIFICATION + RED TEAM QA ESCALATION
+36. CTO reviews autonomous fix results from Phase F:
+    - Verify all FIXED items: test + fix committed, regression suite green
+    - Review ESCALATED items: assign to coder teammates if architectural
+      (NOT itself -- Nuclear Rule 1)
+    - Review FAILED items (3 attempts exhausted): escalate to Red Team
+37. Escalated fixes go through abbreviated peer review
+38. Red Team Post-QA review runs (Article 14b):
+    - Targets QA coverage gaps, interaction effects, inherited assumptions
+    - Reviews aggregate impact of all autonomous fixes
+    - Issues verdict: APPROVE / REVISE / BLOCK
+39. If Red Team issues BLOCK: escalate to project owner
+40. Autonomous Defect Resolution Protocol (Article 17e):
+    - Any NEW defect found during Phase G: finding agent applies protocol
+      (AUDIT/RED/GREEN/REGRESSION/CLASS SCAN/COMMIT)
+    - Escalate to user only when fix requires architectural decision,
+      modifies infrastructure outside workspace, or has failed 3 times
+
+PHASE H: REGRESSION + IMPLICIT BEHAVIOR REGRESSION (AUTONOMOUS FIX)
+42. Abbreviated QA re-run on fixed areas only
+    - Any regressions found: apply Autonomous Defect Resolution Protocol
+      (AUDIT/RED/GREEN/REGRESSION/CLASS SCAN/COMMIT -- Article 17e)
+43. Implicit Behavior Regression re-check (all 6 categories)
+44. Goal Achievement Test re-run if any fixes touched user-facing workflows
+
+   +--------------------------------------------------------------+
+   | NUCLEAR GATE H: Before moving to next slice, CTO must        |
+   | confirm ALL of the following or the slice HAS NOT SHIPPED:    |
+   |                                                               |
+   | [] "Gherkin audit passed (completeness + quality)"            |
+   | [] "All tests written by test-writer sub-agents (not coders)" |
+   | [] "All Gherkin scenarios pass"                               |
+   | [] "All peer reviewers reviewed and approved"                 |
+   | [] "All QA agents ran and passed"                             |
+   | [] "Red Team Pre-Build review completed (Article 14a)"       |
+   | [] "Red Team Post-QA review completed (Article 14b)"         |
+   | [] "Whiskey Team review completed (Article 15)"               |
+   | [] "UX Sense Check completed (Article 16, if frontend)"      |
+   | [] "Goal Achievement Test = PASS"                             |
+   | [] "Implicit Behavior Regression -- all 6 categories checked" |
+   | [] "Article 20 architecture standards verified (feature      |
+   |     folders, 3-layer, 150-line, observability, error wrap)"  |
+   | [] "Unit test coverage >= 90% business logic + public APIs"   |
+   | [] "Documentation updated (Scribe or Architect)"              |
+   | [] "CTO did NOT write any code or test code this slice"       |
+   | [] "reviews/slice-N-test-spec.md EXISTS on disk"              |
+   | [] "reviews/slice-N-test-review.md EXISTS on disk"            |
+   | [] "reviews/slice-N-peer-review.md EXISTS on disk"            |
+   | [] "reviews/slice-N-qa-swarm.md EXISTS on disk"               |
+   | [] "reviews/slice-N-red-team-pre-build.md EXISTS on disk"     |
+   | [] "reviews/slice-N-red-team.md EXISTS on disk"               |
+   | [] "reviews/slice-N-whiskey-team.md EXISTS on disk"           |
+   | [] "reviews/slice-N-ux-sense-check.md EXISTS (if frontend)"   |
+   |                                                               |
+   | If ANY box is unchecked: STOP. This slice is NOT complete.    |
+   | Violation of Nuclear Rule 3. Do NOT start the next slice.     |
+   | Finish this one first.                                        |
+   +--------------------------------------------------------------+
+
+PHASE I: DOCUMENTATION UPDATE
+45. CTO delegates doc updates to Documentation Scribe (if available) or Architect
+46. Designated agent updates affected docs via DOCS_MAP
+47. If a discovery in this slice invalidates earlier diagrams, update them here
+
+PHASE J: MECHANICAL GATE CHECK (Article 12 enforcement)
+48. CTO runs the gate check script:
+    $ python gate_check.py --slice N
+49. Script mechanically verifies ALL artifacts exist on disk:
+    - reviews/slice-N-test-spec.md exists and is non-empty
+    - reviews/slice-N-test-review.md exists and is non-empty
+    - reviews/slice-N-peer-review.md exists and is non-empty
+    - reviews/slice-N-qa-swarm.md exists and is non-empty
+    - reviews/slice-N-red-team-pre-build.md exists and is non-empty
+    - reviews/slice-N-red-team.md exists and is non-empty
+    - reviews/slice-N-whiskey-team.md exists and is non-empty
+    - reviews/slice-N-ux-sense-check.md exists (frontend slices)
+    - Gherkin feature file exists in features/
+    - Unit test files exist in tests/ or src/**/
+    - All tests pass
+50. Script returns PASS or FAIL with specific missing items listed.
+51. If FAIL: CTO fixes missing items. Does NOT start next slice.
+52. If PASS: CTO may begin Slice N+1.
+```
+
+**If you are reading this and considering skipping the gate check script: DON'T. The script exists specifically because the CTO has demonstrated a tendency to skip reviews and move forward. The script is a mechanical check that cannot be rationalized away. Run it.**

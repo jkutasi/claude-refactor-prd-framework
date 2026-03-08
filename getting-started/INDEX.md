@@ -1,0 +1,23 @@
+# Getting Started — Index
+
+> **Purpose:** This directory contains the project setup roadmap from the Get Started framework. For refactor projects, **start with `refactor-guide/INDEX.md` first** — it walks you through assessment, decomposition, and Gherkin extraction before you use these files.
+
+## Refactor Projects: Start Here
+
+| File | When to Load |
+|------|-------------|
+| [../refactor-guide/INDEX.md](../refactor-guide/INDEX.md) | **START HERE** — the refactor roadmap |
+
+## Get Started Framework Content (Used During Rebuild)
+
+Once you've completed the refactor assessment and decomposition (Steps 1-4), the rebuild phase uses these standard Get Started files:
+
+| File | When to Load |
+|------|-------------|
+| [00-nuclear-rules.md](00-nuclear-rules.md) | Always — read first at every session |
+| [01-planning-phase.md](01-planning-phase.md) | Step 5: Planning inputs come from assessment + decomposition output |
+| [02-agent-teams.md](02-agent-teams.md) | Step 5: Setting up Agent Teams (includes refactor-phase sub-agents) |
+| [03-slice-0-bootstrap.md](03-slice-0-bootstrap.md) | Step 5: Creating Slice 0 infrastructure in the rebuild branch |
+| [04-per-slice-workflow.md](04-per-slice-workflow.md) | Step 6: Running phases A-J for each slice (+ comparative metrics) |
+| [05-browser-testing.md](05-browser-testing.md) | Step 6: Browser testing + session checklist |
+| [06-appendix.md](06-appendix.md) | Reference: file structure + naming conventions |
