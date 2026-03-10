@@ -32,13 +32,13 @@ Articles 1-34 define the detailed rules of engagement. They are stored individua
 | 18 | Test Peer Review Protocol | During Phase B.3 (test code peer review) |
 | 19 | User Scope Confirmation Protocol | During Phase A.6 (user confirms slice scope) |
 | 20 | Code Architecture Standards (8 subsections) | During implementation, code review, and QA |
-| 21 | Commit vs. push workflow | Commit vs. push workflow |
+| 21 | Commit vs. push + post-push verification | Commit vs. push workflow, post-push monitoring |
 | 22 | Commit workflow job sizing | Review depth for a change |
-| 23 | Linting and pre-push hooks | Setting up Husky or diagnosing push failures |
+| 23 | Linting, pre-push hooks + secrets scanning | Setting up Husky, diagnosing push failures, secrets scanning |
 | 24 | Sub-agent separation | Spawning sub-agents for implementation |
 | 25 | Backend QA sweep | Running backend QA sweep |
 | 26 | BFF pattern | Designing API endpoints for frontend views |
-| 27 | Post-work hygiene | Finishing a task or dismissing agents |
+| 27 | Post-work hygiene + push safety | Finishing a task, dismissing agents, pre-push and post-push verification |
 | 28 | Service log inventory | Diagnosing missing logs or adding observability |
 | 29 | Planning decomposition | Planning a slice (decomposing into concerns) |
 | 30 | File map specification | Creating file maps before implementation |

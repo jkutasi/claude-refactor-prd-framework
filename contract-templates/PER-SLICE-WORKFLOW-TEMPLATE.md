@@ -5,6 +5,8 @@
 **CRITICAL: Every phase is MANDATORY. Skipping any phase is a CONTRACT VIOLATION.**
 **REMINDER: You are the CTO Orchestrator. You spawn teammates and sub-agents for ALL implementation.**
 
+**USER PRESENTATION RULE: The user ONLY sees finished, fully-vetted work. ALL phases (peer review, QA swarm, whiskey team, red team, regression, UX sense check) must complete autonomously BEFORE presenting results to the user. Never defer QA to "after user reviews." Never say "contingent on user review." The CTO presents a DONE slice — not a draft waiting for validation.**
+
 ```
 PHASE A: PREPARATION
 1. CTO reviews slice requirements + Gherkin acceptance criteria
@@ -95,6 +97,9 @@ PHASE D: SELF-REFLECTION (mandatory, before peer review)
 28. CTO reviews reflection, assigns self-identified fixes
 
 PHASE E: PEER REVIEW (3+ models, parallel)
+NOTE: Peer review applies to ALL code changes including refactoring.
+Refactoring is not exempt from peer review, QA, or security review.
+Moving code between files can introduce security regressions.
 29. 3 peer reviewers run in parallel, return findings
 
    +--------------------------------------------------------------+
@@ -186,10 +191,29 @@ PHASE I: DOCUMENTATION UPDATE
 46. Designated agent updates affected docs via DOCS_MAP
 47. If a discovery in this slice invalidates earlier diagrams, update them here
 
+PHASE I.5: USER DELIVERY (only after ALL prior phases complete)
+48. CTO presents completed slice to user:
+    - What was built (summary + screenshots/demos if applicable)
+    - All QA results (peer review verdict, QA swarm results, whiskey team verdict)
+    - Any known limitations or trade-offs
+49. User tests and provides feedback
+50. If user finds issues: CTO spawns fix agents, runs abbreviated QA, then re-presents
+
+   +------------------------------------------------------------------+
+   | USER DELIVERY GATE I.5: Before presenting to user, CTO confirms: |
+   | [] "Peer review completed — verdict is not 'pending'"            |
+   | [] "QA swarm completed — all agents reported"                    |
+   | [] "Whiskey team completed — all CRITICAL/HIGH resolved"         |
+   | [] "Red Team post-QA completed"                                  |
+   | [] "Regression check passed"                                     |
+   | [] "Goal Achievement Test passed"                                |
+   | [] "I am presenting DONE work, not a draft"                      |
+   +------------------------------------------------------------------+
+
 PHASE J: MECHANICAL GATE CHECK (Article 12 enforcement)
-48. CTO runs the gate check script:
+51. CTO runs the gate check script:
     $ python gate_check.py --slice N
-49. Script mechanically verifies ALL artifacts exist on disk:
+52. Script mechanically verifies ALL artifacts exist on disk:
     - reviews/slice-N-test-spec.md exists and is non-empty
     - reviews/slice-N-test-review.md exists and is non-empty
     - reviews/slice-N-peer-review.md exists and is non-empty
@@ -201,9 +225,38 @@ PHASE J: MECHANICAL GATE CHECK (Article 12 enforcement)
     - Gherkin feature file exists in features/
     - Unit test files exist in tests/ or src/**/
     - All tests pass
-50. Script returns PASS or FAIL with specific missing items listed.
-51. If FAIL: CTO fixes missing items. Does NOT start next slice.
-52. If PASS: CTO may begin Slice N+1.
+53. Script returns PASS or FAIL with specific missing items listed.
+54. If FAIL: CTO fixes missing items. Does NOT start next slice.
+55. If PASS: push to GitHub, then run POST-PUSH VERIFICATION.
+
+POST-PUSH VERIFICATION (after every push to GitHub — MANDATORY)
+
+After pushing, the CTO MUST verify the deployment is healthy:
+
+1. CHECK ERROR TRACKER (Sentry or project-equivalent — via MCP, API, or dashboard):
+   - Wait at least 2 minutes after push for error indexing propagation
+   - Query for new errors in the last 15 minutes
+   - Filter by the project and environment (preview/production)
+   - If new errors found: treat as CRITICAL — spawn fix agent immediately
+
+2. CHECK DEPLOYMENT PLATFORM (Vercel/AWS/GCP/etc. — via dashboard or CLI):
+   - Verify the deployment succeeded (no build errors)
+   - Check function logs for runtime errors
+   - If deployment failed or has runtime errors: revert or fix immediately
+
+3. CHECK GREPTILE (if configured — via MCP):
+   - Run a codebase-aware scan on the pushed changes
+   - Review cross-file consistency findings
+   - Consensus findings = mandatory fixes (same as peer review rules)
+
+   +------------------------------------------------------------------+
+   | POST-PUSH GATE: CTO must confirm after every push:               |
+   | [] "Error tracker checked — no new errors in last 10 minutes"     |
+   | [] "Deployment platform verified — no build or runtime errors"   |
+   | [] "Function/service logs clean — no new exceptions"             |
+   | [] "Greptile scan completed (if configured) — findings reviewed" |
+   | If ANY check fails: fix immediately before starting new work.    |
+   +------------------------------------------------------------------+
 ```
 
 **If you are reading this and considering skipping the gate check script: DON'T. The script exists specifically because the CTO has demonstrated a tendency to skip reviews and move forward. The script is a mechanical check that cannot be rationalized away. Run it.**

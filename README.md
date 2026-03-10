@@ -41,6 +41,28 @@ Once the rebuild is complete, the refactor scaffolding gets archived and the pro
 | **6** | Rebuild Workflow | Rebuild slice by slice using standard Get Started Phases A-J |
 | **7** | Cutover & Archive | Archive refactor scaffolding, project becomes standard Get Started |
 
+## Per-Slice Workflow (Phases A–J)
+
+Every vertical slice follows this mandatory sequence during the rebuild:
+
+| Phase | Name | What Happens |
+|-------|------|-------------|
+| **A** | Preparation | CTO reviews requirements, researcher gathers docs |
+| **A.5** | Doc Bootstrap + Diagrams | Slice 0: docs + high-level diagrams. Slices 1+: per-slice diagrams |
+| **A.6** | User Scope Confirmation | User reviews and approves slice scope before Red Team and tests |
+| **A.7** | Red Team Pre-Build | Adversarial review of the user-confirmed plan before any code is written |
+| **B** | Test Specification | B.1: Gherkin audit. B.2: Test-writer agents write all tests (must be RED). B.3: Test peer review |
+| **C** | Implementation | Coder agents write code until all tests from Phase B pass |
+| **D** | Self-Reflection | Each coder re-reads their own code as a reviewer |
+| **E** | Peer Review | 3+ independent external models review in parallel (+ Greptile if configured) |
+| **F** | QA Swarm | Standard QA + Whiskey Team + UX Sense Check in parallel |
+| **G** | Autonomous Fix Verification | Autonomous Defect Resolution Protocol — QA agents fix inline, CTO verifies + handles escalations |
+| **H** | Regression | Full regression check + implicit behavior regression (6 categories) |
+| **I** | Documentation | Scribe updates all affected docs |
+| **I.5** | User Delivery | CTO presents DONE slice to user with all QA results — user only sees fully-vetted work |
+| **J** | Gate Check | Mechanical verification that all artifacts exist |
+| **Post-Push** | Post-Push Verification | Check error tracker, deployment logs, and Greptile after every push |
+
 ## Repository Structure
 
 ```

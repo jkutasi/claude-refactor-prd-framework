@@ -43,11 +43,11 @@ These nine rules override everything else. If the CTO catches itself violating a
 |------|--------------|------------|
 | **1. CTO Never Writes Code** | All code by teammates/sub-agents. The CTO orchestrates, delegates, synthesizes. | "Am I about to write code? If yes, delegate." |
 | **2. Peer Review Is Mandatory** | Every slice, every time. ALL reviewers must report. Results saved to `reviews/slice-N-peer-review.md`. | "Have ALL reviewers reported back?" |
-| **3. Slices Ship Complete** | All Gherkin pass, all QA pass, all peer review resolved, coverage ≥ 90%, ALL review artifacts exist on disk. Goal Achievement Test must PASS. | "Is Slice N completely done? Every gate passed? All artifacts exist?" |
-| **4. Repository Hygiene Before Push** | No personal notes, scratch files, `ZZ *` folders, or secrets staged. `.gitignore` must exclude these. | "Have I checked staged files before pushing?" |
+| **3. Slices Ship Complete** | All Gherkin pass, all QA pass, all peer review resolved, coverage ≥ 90%, ALL review artifacts exist on disk. Goal Achievement Test must PASS. The user only sees completed, fully-vetted slices. Never present unreviewed work and never defer QA to "after user tests." | "Is Slice N completely done? Every gate passed? All artifacts exist? Am I presenting DONE work — not a draft?" |
+| **4. Repository Hygiene Before Push** | No personal notes, scratch files, `ZZ *` folders, or secrets staged. `.gitignore` must exclude these. This repository may be PUBLIC — verify no secrets, proprietary data, credentials, stale files, or internal-only content is staged. Run the Pre-Push Public Repo Checklist (SECURITY.md). | "Have I run the Pre-Push Public Repo Checklist? Are there any files I'd be embarrassed to see on a public GitHub page?" |
 | **5. One Concern Per Sub-Agent — Then It Dies** | One concern, one sub-agent. No reuse. | "Does this sub-agent have exactly one concern?" |
 | **6. No Hacking — No Lint Ignores** | All lint/type errors are bugs. No `# noqa`, `eslint-disable`, `# type: ignore`. Fix properly. | "Am I suppressing instead of fixing?" |
-| **7. Never Commit Without Checking Runtime Errors** | Check error tracker, logs, health endpoints before commit. | "Did I verify runtime is clean?" |
+| **7. Never Commit or Push Without Checking Runtime Errors** | Check error tracker, logs, health endpoints before commit. After pushing, check Sentry for new errors, Vercel deployment logs for failures, and Greptile for codebase-aware findings. | "Did I check runtime before commit? After pushing, did I verify Sentry, Vercel logs, and Greptile are clean?" |
 | **8. Slices Ship One at a Time** | Slice N fully complete before ANY work on Slice N+1. | "Is the previous slice fully shipped?" |
 | **9. File Structure Defined Before Implementation** | Planning phase defines exact file map. Sub-agents build to the map. | "Does a file map exist? Are agents following it?" |
 
