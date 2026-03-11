@@ -56,6 +56,7 @@ Every vertical slice follows this mandatory sequence during the rebuild:
 | **D** | Self-Reflection | Each coder re-reads their own code as a reviewer |
 | **E** | Peer Review | 3+ independent external models review in parallel (+ Greptile if configured) |
 | **F** | QA Swarm | Standard QA + Whiskey Team + UX Sense Check in parallel |
+| **F.5** | Runtime Log Check | Check Sentry, server logs, DB logs for errors surfaced during QA |
 | **G** | Autonomous Fix Verification | Autonomous Defect Resolution Protocol — QA agents fix inline, CTO verifies + handles escalations |
 | **H** | Regression | Full regression check + implicit behavior regression (6 categories) |
 | **I** | Documentation | Scribe updates all affected docs |
