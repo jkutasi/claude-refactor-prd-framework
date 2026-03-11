@@ -50,7 +50,7 @@ Every vertical slice follows this mandatory sequence during the rebuild:
 | **A** | Preparation | CTO reviews requirements, researcher gathers docs |
 | **A.5** | Doc Bootstrap + Diagrams | Slice 0: docs + high-level diagrams. Slices 1+: per-slice diagrams |
 | **A.6** | User Scope Confirmation | User reviews and approves slice scope before Red Team and tests |
-| **A.7** | Red Team Pre-Build | Adversarial review of the user-confirmed plan before any code is written |
+| **A.7** | Red Team + Professor Pre-Build | Adversarial + domain-expert review of the user-confirmed plan before any code is written |
 | **B** | Test Specification | B.1: Gherkin audit. B.2: Test-writer agents write all tests (must be RED). B.3: Test peer review |
 | **C** | Implementation | Coder agents write code until all tests from Phase B pass |
 | **D** | Self-Reflection | Each coder re-reads their own code as a reviewer |
