@@ -49,19 +49,19 @@ PHASE A.7: RED TEAM PRE-BUILD GATE
 PHASE B: GHERKIN AUDIT + TEST SPECIFICATION + TEST PEER REVIEW (Article 17, 18)
 
    B.1: GHERKIN AUDIT (max 3 cycles)
-   7.  QA Lead audits Gherkin for completeness (traceability matrix) + quality
-   8.  Every user story element must map to at least one Gherkin scenario
-   9.  Quality: unambiguous, concrete values, testable outcomes, NFR coverage
+   10. QA Lead audits Gherkin for completeness (traceability matrix) + quality
+   11. Every user story element must map to at least one Gherkin scenario
+   12. Quality: unambiguous, concrete values, testable outcomes, NFR coverage
 
    B.2: TEST SPECIFICATION (different agents from implementation coders)
-   10. Architect defines skeletal interfaces (function sigs, class stubs)
-   11. QA Lead spawns test-writer sub-agents (NOT implementation coders)
-   12. Test-writers write ALL tests: unit, integration, E2E definitions
-   13. ALL tests must be RED (import errors or assertion failures)
+   13. Architect defines skeletal interfaces (function sigs, class stubs)
+   14. QA Lead spawns test-writer sub-agents (NOT implementation coders)
+   15. Test-writers write ALL tests: unit, integration, E2E definitions
+   16. ALL tests must be RED (import errors or assertion failures)
 
    B.3: TEST PEER REVIEW (3+ models, parallel)
-   14. 3 peer reviewers (+ Greptile if configured) review test code in parallel
-   15. Consensus (2+) = mandatory test fixes before proceeding
+   17. 3 peer reviewers (+ Greptile if configured) review test code in parallel
+   18. Consensus (2+) = mandatory test fixes before proceeding
 
    +-----------------------------------------------------------------+
    | TEST SPEC GATE B: CTO must confirm:                             |
@@ -75,8 +75,8 @@ PHASE B: GHERKIN AUDIT + TEST SPECIFICATION + TEST PEER REVIEW (Article 17, 18)
    +-----------------------------------------------------------------+
 
 PHASE C: IMPLEMENTATION
-16. CTO assigns implementation to coder teammates (NOT itself -- Nuclear Rule 1)
-17. Coders receive failing tests + spec, write code until tests PASS
+19. CTO assigns implementation to coder teammates (NOT itself -- Nuclear Rule 1)
+20. Coders receive failing tests + spec, write code until tests PASS
 
    +-----------------------------------------------------------------+
    | NUCLEAR GATE C: CTO must confirm:                               |
@@ -87,13 +87,13 @@ PHASE C: IMPLEMENTATION
    +-----------------------------------------------------------------+
 
 PHASE D: SELF-REFLECTION (mandatory)
-18. Each coder re-reads their code, identifies issues, proposes improvements
+21. Each coder re-reads their code, identifies issues, proposes improvements
 
 PHASE E: PEER REVIEW (3+ models, parallel)
 NOTE: Peer review applies to ALL code changes including refactoring.
 Refactoring is not exempt from peer review, QA, or security review.
 Moving code between files can introduce security regressions.
-19. 3 peer reviewers (+ Greptile if configured) run in parallel, return findings
+22. 3 peer reviewers (+ Greptile if configured) run in parallel, return findings
 
    +-----------------------------------------------------------------+
    | NUCLEAR GATE E: CTO must confirm:                               |
@@ -101,18 +101,18 @@ Moving code between files can introduce security regressions.
    | [] "Consensus issues (2+ reviewers) identified as mandatory"    |
    +-----------------------------------------------------------------+
 
-20. CTO synthesizes: consensus (2+) = mandatory fixes
+23. CTO synthesizes: consensus (2+) = mandatory fixes
 
 PHASE F: QA SWARM + WHISKEY TEAM + UX SENSE CHECK (AUTONOMOUS FIX)
-21. Standard QA swarm -- Stats, Code Quality, Data Integrity, Security, UI/UX
+24. Standard QA swarm -- Stats, Code Quality, Data Integrity, Security, UI/UX
     Each agent applies Autonomous Defect Resolution Protocol (Article 17e):
     find bug -> spawn fix sub-agent -> AUDIT/RED/GREEN/REGRESSION/CLASS SCAN/COMMIT
-22. Whiskey Team -- adversarial QA (8 scope items incl. Goal Achievement Test)
+25. Whiskey Team -- adversarial QA (8 scope items incl. Goal Achievement Test)
     + MANDATORY implicit behavior regression (6 categories)
     Whiskey Team applies same autonomous fix protocol
-23. UX Sense Check -- 3 personas navigate via agent-browser (frontend slices)
+26. UX Sense Check -- 3 personas navigate via agent-browser (frontend slices)
     All run under QA Lead coordination.
-24. QA Manager synthesizes ALL findings + autonomous fix results
+27. QA Manager synthesizes ALL findings + autonomous fix results
 
 PHASE F.5: RUNTIME LOG CHECK (after every QA run — MANDATORY)
 After the QA swarm and Whiskey Team complete, the CTO checks all available logs
@@ -130,6 +130,7 @@ for errors that surfaced during testing but weren't caught by the test assertion
     - Any DB error that occurred during QA testing
 31. CTO adds all log findings to the Phase G queue alongside QA agent findings.
     Log errors are treated as CRITICAL — they are real runtime failures, not hypothetical.
+    Log errors are treated as CRITICAL — they are real runtime failures, not hypothetical.
 
    +-----------------------------------------------------------------+
    | RUNTIME LOG GATE F.5: Before proceeding to Phase G:            |
@@ -140,17 +141,17 @@ for errors that surfaced during testing but weren't caught by the test assertion
    +-----------------------------------------------------------------+
 
 PHASE G: AUTONOMOUS FIX VERIFICATION + RED TEAM ESCALATION
-25. CTO reviews autonomous fix results from Phase F (QA agents fix bugs inline)
-26. Escalated fixes (architectural/infrastructure/3x-failed) assigned to teammates
-27. Autonomous Defect Resolution Protocol (Article 17e):
+32. CTO reviews autonomous fix results from Phase F (QA agents fix bugs inline)
+33. Escalated fixes (architectural/infrastructure/3x-failed) assigned to teammates
+34. Autonomous Defect Resolution Protocol (Article 17e):
     AUDIT test -> RED -> GREEN -> REGRESSION -> CLASS SCAN -> COMMIT
-32. IF fix escalated to Red Team: verdict APPROVE / REVISE / BLOCK (Article 14b)
+35. IF fix escalated to Red Team: verdict APPROVE / REVISE / BLOCK (Article 14b)
     Max 3 autonomous fix attempts before Red Team escalation
 
 PHASE H: REGRESSION CHECK + IMPLICIT BEHAVIOR REGRESSION
-33. Abbreviated QA re-run on fixed areas
-34. Whiskey Team runs MANDATORY implicit behavior regression (6 categories)
-35. UX Sense Check re-runs on changed frontend pages
+36. Abbreviated QA re-run on fixed areas
+37. Whiskey Team runs MANDATORY implicit behavior regression (6 categories)
+38. UX Sense Check re-runs on changed frontend pages
 
    +-----------------------------------------------------------------+
    | NUCLEAR GATE H: Before starting next slice, CTO must confirm:   |
@@ -167,47 +168,47 @@ PHASE H: REGRESSION CHECK + IMPLICIT BEHAVIOR REGRESSION
    | [] "Article 20 architecture standards verified (feature          |
    |     folders, 3-layer, 150-line, observability, error wrap)"      |
    | [] "UX Sense Check ran (if frontend slice)"                      |
-   | [] "Unit test coverage >= 90% on business logic"                 |
+   | [] "Unit test coverage >= 90% on business logic + public interfaces" |
    | [] "CTO did NOT write any code or test code this slice"          |
    | [] "reviews/slice-N-test-spec.md EXISTS"                         |
    | [] "reviews/slice-N-test-review.md EXISTS"                       |
    | [] "reviews/slice-N-peer-review.md EXISTS"                       |
    | [] "reviews/slice-N-qa-swarm.md EXISTS"                          |
    | [] "reviews/slice-N-red-team-pre-build.md EXISTS"                |
-   | [] "reviews/slice-N-red-team.md EXISTS"                          |
+   | [] "reviews/slice-N-red-team.md EXISTS (if Red Team escalation triggered in Phase G)" |
    | [] "reviews/slice-N-whiskey-team.md EXISTS"                      |
    | [] "reviews/slice-N-ux-sense-check.md EXISTS (if frontend)"      |
    +-----------------------------------------------------------------+
 
 PHASE I: DOCUMENTATION UPDATE
-36. Documentation Scribe updates affected docs
-37. Learnings files updated with new patterns discovered
-38. If a discovery invalidated earlier diagrams, update them here
+39. Documentation Scribe updates affected docs
+40. Learnings files updated with new patterns discovered
+41. If a discovery invalidated earlier diagrams, update them here
 
 PHASE I.5: USER DELIVERY (only after ALL prior phases complete)
-39. CTO presents completed slice to user:
+42. CTO presents completed slice to user:
     - What was built (summary + screenshots/demos if applicable)
     - All QA results (peer review verdict, QA swarm results, whiskey team verdict)
     - Any known limitations or trade-offs
-40. User tests and provides feedback
-41. If user finds issues: CTO spawns fix agents, runs abbreviated QA, then re-presents
+43. User tests and provides feedback
+44. If user finds issues: CTO spawns fix agents, runs abbreviated QA, then re-presents
 
    +-----------------------------------------------------------------+
    | USER DELIVERY GATE I.5: Before presenting to user, CTO confirms:|
    | [] "Peer review completed — verdict is not 'pending'"           |
    | [] "QA swarm completed — all agents reported"                   |
    | [] "Whiskey team completed — all CRITICAL/HIGH resolved"        |
-   | [] "Red Team post-QA completed"                                 |
+   | [] "Red Team post-QA completed (if escalation triggered)"       |
    | [] "Regression check passed"                                    |
    | [] "Goal Achievement Test passed"                               |
    | [] "I am presenting DONE work, not a draft"                     |
    +-----------------------------------------------------------------+
 
 PHASE J: MECHANICAL GATE CHECK
-42. CTO runs: python gate_check.py --slice N [--frontend]
-43. Script verifies ALL artifacts exist on disk (8 review files per slice)
-44. If FAIL: fix missing items. Do NOT start next slice.
-45. If PASS: push to GitHub, then run POST-PUSH VERIFICATION.
+45. CTO runs: python gate_check.py --slice N [--frontend]
+46. Script verifies ALL artifacts exist on disk (8 review files per slice)
+47. If FAIL: fix missing items. Do NOT start next slice.
+48. If PASS: push to GitHub, then run POST-PUSH VERIFICATION.
 
 POST-PUSH VERIFICATION (after every push to GitHub — MANDATORY)
 

@@ -241,9 +241,7 @@ Features are classified by business criticality. Classification determines test 
 
 ## §8 Migration Strategy (Existing Projects)
 
-> **Refactor rebuild override:** If the CLAUDE.md contains a `REFACTOR ADDENDUM` section, this entire §8 is **suspended**. During a refactor rebuild, the project is being rewritten from scratch — not incrementally migrated. All new code follows §1-§7 from the start. This override is temporary and expires when the refactor addendum is removed at cutover.
-
-For projects that are already in progress under the old directory structure (incremental migration, NOT full refactor rebuild):
+For projects that are already in progress under the old directory structure:
 
 - **Do not rewrite the codebase.** Migrating everything at once is wasteful and risky.
 - **Refactor only when you touch it.** When a bug fix or feature change requires touching an existing file, refactor it into the new pattern (feature folder, layer separation, error wrapping) at that time.
