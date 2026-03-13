@@ -2,23 +2,20 @@
 
 > Part of the [Getting Started](INDEX.md) roadmap. Load only this file when working on creating Slice 0 infrastructure.
 
-> **Refactor projects:** Slice 0 bootstrap happens in the **rebuild branch**, not from an empty workspace. The old code is on the read-only reference branch. This bootstrap creates the Get Started framework infrastructure alongside the rebuild. See `refactor-guide/05-bootstrap-rebuild.md` for how assessment and decomposition outputs feed into this step.
-
 Slice 0 creates every file, directory, skill, template, and script so that when Slice 1 starts, the infrastructure for compliance already exists. The CTO loads ONE subdocument at a time for each step.
 
 ### 3a. Create CLAUDE.md Contract
 
 > Load `contract-templates/CLAUDE-MD-TEMPLATE.md` (core, ~90 lines) and customize for your project.
-> Also load and deploy the extracted templates referenced by CLAUDE.md:
-> - `contract-templates/AGENT-TEAMS-TEMPLATE.md` — team roster, sub-agent catalog, MCP architecture
-> - `contract-templates/ARTICLES-INDEX-TEMPLATE.md` — articles 1-34 quick reference
-> - `contract-templates/PER-SLICE-WORKFLOW-TEMPLATE.md` — Phases A-J with gates and checklists
-> - `contract-templates/articles/` directory — one file per article, loaded on demand
+> Also load and deploy: `AGENT-TEAMS-TEMPLATE.md`, `ARTICLES-INDEX-TEMPLATE.md`, `PER-SLICE-WORKFLOW-TEMPLATE.md`.
+> Copy `contract-templates/articles/ directory (one file per article, loaded on demand)` — articles are loaded on demand, NOT at session start.
 
 The core contract contains:
 - CTO role definition (Delegate Mode, never writes code)
 - Nuclear Rules with verification gates
-- Load-on-demand pointers to Agent Teams, Articles, Per-Slice Workflow, and Security
+- Agent Teams structure
+- Per-slice workflow with all phases
+- Articles quick-reference table (points to the appendix for full details)
 
 The articles appendix contains the full definitions of Articles 1-34 (code authorship, peer review, QA, Red Team, Professor Review, Whiskey Team, UX Sense Check, Test-First Specification Protocol, Test Peer Review, User Scope Confirmation, Code Architecture Standards). Agents load it on demand when they need a specific article's details.
 
@@ -109,12 +106,68 @@ After installing:
 2. Add `SENTRY_DSN` and `SENTRY_ENVIRONMENT` to `.env` using the project's Sentry credentials.
 3. Send one test error through the logger and confirm it appears in the Sentry dashboard. If it doesn't show up, fix the connection before proceeding.
 
-**Gate:** Do NOT start Slice 1 until Sentry is receiving errors. An error tracker configured "later" never gets configured.
+**Gate:** Do NOT start Slice 1 until ALL of the following are verified:
 
-### 3h. Set Up Persistence
+| # | Verification | How to Check |
+|---|-------------|--------------|
+| 1 | Sentry receiving errors | Send test error, confirm it appears in Sentry dashboard |
+| 2 | Logger file exists | `ls src/shared/logging/logger.{EXT}` returns a file |
+| 3 | No raw console calls | `grep -r "console\.\(log\|error\|warn\)" src/` returns zero matches |
+| 4 | Linter configured | `pyproject.toml` has `[tool.ruff]` or `.eslintrc*` exists |
+| 5 | Pre-push hook exists | `.husky/pre-push` file exists and blocks on lint failures |
+| 6 | gate_check.py passes | `python gate_check.py --slice 0` returns PASS |
 
-Use plain Markdown files in `learnings/` for cross-session knowledge persistence:
-- `learnings/QA_LEARNINGS.md` — QA patterns and findings
-- `learnings/BUILD_LEARNINGS.md` — Build and deployment patterns
-- `learnings/REVIEW_LEARNINGS.md` — Review patterns and common issues
-- `learnings/UX_LEARNINGS.md` — UX patterns and user feedback
+> **An error tracker configured "later" never gets configured. A linter installed "later" never gets installed. A logger created "later" means 8 slices of `console.log` that Sentry never sees.**
+
+### 3i. Verify UserPromptSubmit Hook (Nuclear Rule 10)
+
+Check whether `~/.claude/settings.json` contains a `UserPromptSubmit` hook. This hook fires on every prompt and reminds Claude to delegate all implementation to sub-agents, preserving the CTO's context window.
+
+**Check (agent runs this):**
+```bash
+python3 -c "
+import json, pathlib, sys
+p = pathlib.Path.home() / '.claude' / 'settings.json'
+if not p.exists():
+    print('MISSING: ~/.claude/settings.json does not exist')
+    sys.exit(1)
+s = json.loads(p.read_text())
+hooks = s.get('hooks', {})
+if 'UserPromptSubmit' not in hooks:
+    print('MISSING: UserPromptSubmit hook not found')
+    sys.exit(1)
+print('OK: UserPromptSubmit hook present')
+"
+```
+
+**If missing, add the hook.** Open `~/.claude/settings.json` (create it if it doesn't exist) and add the following under `hooks`:
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'ORCHESTRATOR RULE: You are CTO only. NEVER use Edit/Write/Bash/NotebookEdit directly. Spawn a sub-agent for ALL implementation, large file reads, reviews, QA, and execution. Use Read/Glob/Grep only for lightweight planning. If context is growing, you are doing too much directly — delegate more.'"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+If `settings.json` already exists with other content, merge the `hooks.UserPromptSubmit` key into the existing JSON — do not overwrite the entire file.
+
+**Gate:** Do NOT proceed past Slice 0 until the hook check returns `OK`.
+
+### 3h. Set Up Persistence (Choose Your Approach)
+
+Choose a cross-session memory strategy:
+- **Option A:** Plain Markdown files in `learnings/` (recommended starting point)
+- **Option B:** Obsidian + Obsidian MCP (for linked knowledge graphs)
+- **Option C:** Mem0 (for automatic AI memory retrieval)
+- **Option D:** Markdown + Mem0 or Obsidian (belt and suspenders)
