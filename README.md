@@ -1,49 +1,101 @@
-# Claude Refactor PRD Framework
+# Claude Get-Started PRD Framework
 
-A structured rebuild framework for refactoring existing projects using [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with [Agent Teams](https://docs.anthropic.com/en/docs/claude-code/agent-teams). It defines the assessment, decomposition, and rebuild process for taking an existing codebase and restructuring it into the [Get Started PRD Framework](https://github.com/jkutasi/claude-get-started-prd-framework) methodology.
+A multi-agent project template for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with [Agent Teams](https://docs.anthropic.com/en/docs/claude-code/agent-teams). It defines the structure, contracts, QA process, and delivery model for building software with AI agents that orchestrate, code, review, and test — with enforced separation of concerns.
 
 ## What This Is
 
-This is **temporary scaffolding** for rebuilding an existing project. You give Claude Code the URL to this repo alongside your existing project and tell it to refactor. The CTO follows the refactor guide to assess the old codebase, decompose features into narrow vertical slices, extract behavior specs, then rebuild from scratch using the Get Started framework.
+This is a **methodology template**, not a code library. Copy the entire folder into a new project workspace, replace the `{PLACEHOLDER}` values with your project specifics, and Claude Code uses it as its operating contract.
 
-Once the rebuild is complete, the refactor scaffolding gets archived and the project runs on the standard Get Started framework going forward. Claude never reads refactor context again after cutover.
+The framework enforces:
 
-> **Building a new project from scratch?** Use the [Get Started Framework](https://github.com/jkutasi/claude-get-started-prd-framework) directly. This repo is for existing projects that need fundamental restructuring.
-
-## How It Differs from Get Started
-
-| Aspect | Get Started | Refactor |
-|--------|------------|----------|
-| Starting point | Empty workspace | Existing codebase |
-| First step | Planning (what to build) | Assessment (what exists) |
-| Old code | N/A | Preserved on read-only reference branch |
-| Slice decomposition | Design from scratch | Decompose existing features into narrower slices |
-| Gherkin source | Written from requirements | Extracted from old code behavior, then chunked per slice |
-| QA | Standard (does it work?) | Standard + comparative metrics (is it better than before?) |
-| Framework lifecycle | Permanent | Temporary — archived after rebuild complete |
+- **CTO Orchestrator** (Opus) delegates all work — never writes code directly
+- **Test-first workflow** — tests are written by independent agents before any implementation code
+- **Multi-model peer review** — every slice reviewed by Gemini, OpenAI Codex, Grok, and optionally Greptile independently
+- **Adversarial QA** — Red Team, Professors, Whiskey Team, and UX Sense Check run on every slice
+- **10-phase slice lifecycle** (A through J) with mechanical gate checks at each transition
 
 ## Quick Start
 
-1. **Open** your existing project in Claude Code
-2. **Give Claude** the URL to this repo: `https://github.com/jkutasi/claude-refactor-prd-framework`
-3. **Tell it** to refactor the project according to these guidelines
-4. **Follow** `refactor-guide/INDEX.md` — the 7-step sequential roadmap
+1. **Copy** this entire folder into your new project workspace
+2. **Open** `getting-started/INDEX.md` — it's the sequential roadmap, follow it step by step
+3. **Replace** all `{PLACEHOLDER}` values with your project specifics (tech stack, project name, paths, etc.)
+4. **Set up** `.env` with API keys for peer review models (Gemini, OpenAI/Codex, Grok/xAI)
+5. **Enable** Agent Teams: set `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
+6. **Start** Claude Code — it reads the contracts and operates within them
 
-## The Refactor Journey (7 Steps)
+## Repository Structure
 
-| Step | Name | What Happens |
-|------|------|-------------|
-| **1** | Setup Reference Branch | Preserve old code on read-only branch, create rebuild worktree |
-| **2** | Codebase Assessment | Analyze old code: features, patterns, dependencies, debt, risks |
-| **3** | Feature Decomposition | Break old features into narrowest possible vertical slices |
-| **4** | Gherkin Extraction | Extract old behavior as scenarios, chunk per slice, user reviews |
-| **5** | Bootstrap Rebuild | Deploy Get Started framework in rebuild branch, run Slice 0 |
-| **6** | Rebuild Workflow | Rebuild slice by slice using standard Get Started Phases A-J |
-| **7** | Cutover & Archive | Archive refactor scaffolding, project becomes standard Get Started |
+```
+.
+├── getting-started/                     # Roadmap — start with INDEX.md
+│   ├── INDEX.md                        # Table of contents
+│   ├── 00-nuclear-rules.md            # Nine rules that override everything
+│   ├── 01-planning-phase.md           # Step 1: User story, tech stack, slices
+│   ├── 02-agent-teams.md             # Step 2: Agent Teams architecture
+│   ├── 03-slice-0-bootstrap.md       # Step 3: Create everything before code
+│   ├── 04-per-slice-workflow.md      # Step 4: Phases A-J
+│   ├── 05-browser-testing.md         # Step 5: Browser testing + session checklist
+│   └── 06-appendix.md               # File structure reference + naming
+│
+├── contract-templates/                  # The rules of engagement
+│   ├── CLAUDE-MD-TEMPLATE.md          # Core contract (loaded at session start)
+│   ├── ARCHITECTURE-STANDARDS-TEMPLATE.md  # Feature folders, layers, 150-line, observability
+│   ├── CONTRIBUTING-TEMPLATE.md       # Code standards, commit convention
+│   ├── SECURITY-TEMPLATE.md          # API keys, OWASP, access control
+│   ├── DATA-CONTRACT-TEMPLATE.md     # Schemas, versioning, migration
+│   ├── TESTING-PYRAMID-TEMPLATE.md   # Testing pyramid, coverage, Gherkin, edge cases
+│   ├── TESTING-PROCEDURES-TEMPLATE.md # Test-first protocol, peer review, QA procedures
+│   ├── TESTING-GATES-TEMPLATE.md     # Defect resolution, browser testing, gate checklist
+│   └── articles/                      # One file per contract article
+│       ├── INDEX.md                   # Article listing
+│       ├── article-01-code-authorship.md
+│       ├── ...                        # Articles 02-20
+│       ├── article-20-code-architecture.md
+│       ├── article-21-commit-push.md
+│       ├── ...                        # Articles 22-33
+│       └── article-34-error-diagnosis.md
+│
+├── skill-templates/                    # Agent role definitions (one file per agent)
+│   ├── cto-orchestrator.md           # Tier 1: CTO — orchestrates everything
+│   ├── qa-lead.md                    # Tier 1: QA Lead — coordinates all QA
+│   ├── coder-backend.md              # Tier 2: Backend coder
+│   ├── coder-frontend.md             # Tier 2: Frontend coder
+│   ├── reviewer-{gemini,openai,grok,greptile}.md  # Peer reviewers (3 required + 1 optional)
+│   ├── red-team-reviewer.md          # Adversarial review (10 attack dimensions)
+│   ├── whiskey-team-adversarial-qa.md # Adversarial end-to-end QA
+│   ├── ux-sense-check.md             # Persona-based UX testing
+│   ├── qa-{stats,code-quality,data-integrity,security,uiux-browser}.md  # QA specialists
+│   ├── qa-manager.md                 # QA synthesis formatter
+│   ├── documentation-scribe.md       # Documentation updates
+│   ├── researcher.md                 # External research
+│   ├── relay-{mcp-pattern,qmd}.md    # MCP relay patterns
+│   └── prof-*.md                     # 15 Professor domain-expert agents
+│
+├── review-templates/                   # Artifact templates for review outputs
+│   ├── TEST-SPEC-TEMPLATE.md         # Gherkin audit + test specification
+│   ├── TEST-REVIEW-TEMPLATE.md       # Test code peer review findings
+│   ├── PEER-REVIEW-TEMPLATE.md       # Implementation code peer review
+│   ├── QA-SWARM-TEMPLATE.md          # QA swarm synthesis
+│   ├── RED-TEAM-REVIEW-TEMPLATE.md   # Red team findings
+│   ├── PROFESSOR-REVIEW-TEMPLATE.md  # Professor domain-expert findings
+│   ├── WHISKEY-TEAM-TEMPLATE.md      # Whiskey team findings
+│   └── UX-SENSE-CHECK-TEMPLATE.md    # UX sense check findings
+│
+├── examples/                           # Reference examples
+│   ├── mermaid-diagrams.md           # Mermaid diagram templates (7 types)
+│   ├── gherkin-examples.md           # Gherkin scenario examples
+│   ├── gate_check.py                 # Mechanical gate check script
+│   └── project-diary-template.md     # Project diary format
+│
+└── reference/                          # Supporting reference docs
+    ├── agent-registry-template.md    # Agent role assignments
+    ├── config-schema-template.md     # Configuration schema
+    └── naming-conventions.md         # Article 10 naming rules
+```
 
 ## Per-Slice Workflow (Phases A–J)
 
-Every vertical slice follows this mandatory sequence during the rebuild:
+Every vertical slice follows this mandatory sequence:
 
 | Phase | Name | What Happens |
 |-------|------|-------------|
@@ -64,58 +116,15 @@ Every vertical slice follows this mandatory sequence during the rebuild:
 | **J** | Gate Check | Mechanical verification that all artifacts exist |
 | **Post-Push** | Post-Push Verification | Check error tracker, deployment logs, and Greptile after every push |
 
-## Repository Structure
-
-```
-.
-├── refactor-guide/                      # The refactor roadmap — start here
-│   ├── INDEX.md                        # Document map (what to load per phase)
-│   ├── 01-setup-reference-branch.md   # Preserve old code, create worktree
-│   ├── 02-codebase-assessment.md      # Analyze existing codebase
-│   ├── 03-feature-decomposition.md    # Break features into narrow slices
-│   ├── 04a-gherkin-broad-extraction.md # Pass 1: extract behavior from old code
-│   ├── 04b-gherkin-review-and-chunking.md # User review + Pass 2: chunk per slice
-│   ├── 05-bootstrap-rebuild.md        # Deploy Get Started framework
-│   ├── 06-rebuild-workflow.md         # Slice-by-slice rebuild
-│   └── 07-cutover-archive.md          # Archive scaffolding, finalize
-│
-├── assessment-templates/                # Templates for analyzing old codebase
-│   ├── CODEBASE-INVENTORY-TEMPLATE.md
-│   ├── FEATURE-MAP-TEMPLATE.md
-│   ├── DEPENDENCY-GRAPH-TEMPLATE.md
-│   ├── TECH-DEBT-CATALOG-TEMPLATE.md
-│   └── RISK-ASSESSMENT-TEMPLATE.md
-│
-├── decomposition-templates/             # Breaking old features into slices
-│   ├── FEATURE-TO-SLICE-MAP-TEMPLATE.md
-│   └── SLICE-DEPENDENCY-ORDER-TEMPLATE.md
-│
-├── gherkin-templates/                   # Extracting and chunking Gherkin
-│   ├── BEHAVIOR-EXTRACTION-TEMPLATE.md
-│   └── GHERKIN-CHUNKING-TEMPLATE.md
-│
-├── regression-templates/                # Tracking correct behavior coverage
-│   ├── BEHAVIOR-COVERAGE-MATRIX-TEMPLATE.md
-│   └── COMPARATIVE-METRICS-TEMPLATE.md
-│
-├── cutover-templates/                   # Final switchover checklist
-│   └── CUTOVER-CHECKLIST-TEMPLATE.md
-│
-├── getting-started/                     # Get Started framework content (copied)
-├── contract-templates/                  # Contract templates (copied, some adapted)
-├── skill-templates/                     # Agent skill definitions (copied)
-├── review-templates/                    # Review artifact templates (copied)
-├── examples/                            # Reference examples (copied)
-└── reference/                           # Supporting reference docs (copied)
-```
-
 ## Key Concepts
 
-- **Temporary Scaffolding**: The refactor framework guides the rebuild, then gets archived. After cutover, the project is a standard Get Started project.
-- **Reference Branch**: Old code preserved on a read-only branch. Agents can read it for context but never modify it.
-- **Behavior Coverage Matrix**: Tracks which correct behaviors from the old code are now covered by rebuilt slices. Rebuild is not complete until all intended behaviors are covered.
-- **Slice Sizing Principle**: A slice = one statable business rule with a concrete input/output pair. Too small = can't state a meaningful rule. Too big = multiple rules bundled.
-- **Comparative Metrics**: After each slice, compare old vs. new metrics (file lengths, coverage, coupling) to verify the rebuild is actually improving structure.
+- **Nuclear Rules**: Nine rules that override everything — CTO never writes code, peer review is mandatory, slices ship complete
+- **Operational Workflow (Articles 21-34)**: Git workflow, lint enforcement, sub-agent separation, QA sweep, BFF pattern, observability operations, planning decomposition, error diagnosis
+- **Test-First (Articles 17-18)**: Tests are written by independent test-writer agents *before* implementation. Different agents write tests vs. code. Test code also gets 3-model peer review
+- **Autonomous Defect Resolution Protocol**: Bug found → finding agent spawns fix sub-agent → AUDIT test → RED (must fail) → GREEN (fix code) → REGRESSION (full suite) → CLASS SCAN (fix all instances of same category) → COMMIT (atomic). Escalate to user only for architectural decisions, infrastructure changes, or 3x failure
+- **Skeletal Interfaces**: Architect defines function signatures and class stubs (`raise NotImplementedError`) so test-writers can import cleanly before implementation exists
+- **10 Review Artifacts Per Slice**: test-spec, test-review, peer-review, qa-swarm, red-team-pre-build, red-team, professor-pre-build, professor, whiskey-team, ux-sense-check (if frontend)
+- **Code Architecture Standards (Article 20)**: Feature-based folder organization (20a), three-layer separation (20b), 150-line file limit (20c), display-only frontend (20d), structured logging (20e), error wrapping with context chaining (20f), P0/P1/P2 test priority (20g), and migration strategy (20h). These structural rules are the primary quality mechanism — when code is small and concerns are isolated, agents work better automatically
 
 ## Prerequisites
 
