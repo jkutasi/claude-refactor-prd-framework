@@ -11,6 +11,8 @@ For each feature in the Feature Map, extract behavior from:
 4. Error handling (how the code handles failures)
 5. Edge cases (boundary conditions the code handles or fails to handle)
 
+For multi-step scenarios (3+ Given/When/Then/And lines), include `# Step N/M` comments on each line.
+
 ## Feature: {FEATURE_NAME}
 
 **Old code location:** {file paths in reference branch}

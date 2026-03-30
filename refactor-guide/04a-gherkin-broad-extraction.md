@@ -56,6 +56,8 @@ LLM-based Gherkin extraction is not infallible. Be aware of these limitations:
 - **Obfuscated or generated code:** If code is minified, transpiled, or generated, extract Gherkin from the source (pre-build) version if available. If no readable source exists, extract from user-observable behavior (UI, API responses) rather than code paths.
 - **What if extraction misses something?** Missed behaviors will surface during the rebuild when users test the new system and notice missing functionality. At that point, add new Gherkin scenarios to the relevant slice's `.feature` file and rebuild. The Behavior Coverage Matrix should be updated to track the newly discovered behavior.
 
+Apply the Numbered Step Rule: scenarios with 3+ steps must include `# Step N/M` comments.
+
 ### Template
 
 Use `BEHAVIOR-EXTRACTION-TEMPLATE.md` from `refactor/templates/` for structuring each sub-agent's output.

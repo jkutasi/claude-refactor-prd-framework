@@ -12,6 +12,8 @@ For each slice in the Feature-to-Slice Map:
 4. Add detail: since slices are narrower than original features, the per-slice Gherkin should be more specific (concrete values, explicit edge cases)
 5. Apply user classifications: CORRECT scenarios replicate as-is, WRONG scenarios use corrected Gherkin, DROP scenarios are excluded
 
+When chunking broad scenarios into per-slice scenarios, preserve `# Step N/M` comments. Re-number from 1/M for each chunked scenario.
+
 ## Slice {N}: {SLICE_NAME}
 
 **Business rule:** {one-sentence business rule from decomposition}

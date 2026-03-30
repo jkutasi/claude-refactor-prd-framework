@@ -87,6 +87,12 @@ These files contain the detailed operating procedures. Load only what you need, 
 
 **Agents are WHO** (thin role shells): identity, model, tool permissions. **Skills are HOW** (behavior modules): protocols, checklists, anti-patterns. When spawning, pick an agent + a skill.
 
+### Skill Management
+
+Before creating a new skill, check `~/.claude/skills/SKILLS-INDEX.md` or run `/list-skills`.
+See `getting-started/skill-lifecycle-workflow.md` for the decision process and
+`getting-started/skill-v2-creation-guide.md` for v2 format reference.
+
 ### Custom Agents (`.claude/agents/`) — Thin Role Shells
 
 | Agent | Model | Tool Access | Primary Skills |
@@ -109,3 +115,9 @@ These files contain the detailed operating procedures. Load only what you need, 
 | **Professors** | `/prof-architecture`, `/prof-testing`, `/prof-security`, + 12 more | Deep-dive expert review on any topic |
 | **Support** | `/documentation-scribe`, `/researcher`, `/ship-release` | Phase I docs, research, release |
 | **Integration** | `/relay-mcp-pattern`, `/relay-qmd` | External API calls, on-device knowledge search |
+
+<!-- REFACTOR ADDENDUM — Do NOT include this section in the template.
+     For refactor projects, Step 5 (refactor-guide/05-bootstrap-rebuild.md)
+     instructs the agent to APPEND the addendum after Slice 0 completes.
+     The canonical addendum text lives in 05-bootstrap-rebuild.md.
+     This prevents duplication between the template and the guide. -->

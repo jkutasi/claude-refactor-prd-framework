@@ -16,6 +16,8 @@ If the extraction produces more than ~30 scenarios, batch the review:
 
 For small codebases (<30 scenarios), review all at once.
 
+Verify all multi-step scenarios include `# Step N/M` comments before approving.
+
 The user reviews the extracted Gherkin and classifies every scenario into one of three categories:
 
 ### CORRECT — Replicate Exactly
