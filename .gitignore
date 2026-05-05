@@ -39,5 +39,8 @@ build/
 # Logs
 *.log
 
+# gate_check local config (may contain tokens/slugs — .example.json IS committed)
+gate_check.config.json
+
 # Per-run session artifacts (local audit logs — never commit)
 .artifacts/

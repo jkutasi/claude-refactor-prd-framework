@@ -17,8 +17,11 @@ Once you've completed the refactor assessment and decomposition (Steps 1-4), the
 | [00-nuclear-rules.md](00-nuclear-rules.md) | Always — read first at every session |
 | [01-planning-phase.md](01-planning-phase.md) | Step 5: Planning inputs come from assessment + decomposition output |
 | [02-agent-teams.md](02-agent-teams.md) | Step 5: Setting up Agent Teams (includes refactor-phase sub-agents) |
-| [03-slice-0-bootstrap.md](03-slice-0-bootstrap.md) | Step 5: Creating Slice 0 infrastructure in the rebuild branch |
+| [03-slice-0-bootstrap.md](03-slice-0-bootstrap.md) | Step 5: Creating Slice 0 infrastructure in the rebuild branch (scaffolding: steps 3a–3f) |
+| [03a-slice-0-bootstrap-tooling.md](03a-slice-0-bootstrap-tooling.md) | Step 5 (continued): Tooling install — Sentry SDK, Sentry CLI, structured logging, linter, MCP servers (steps 3g–3i) |
 | [04-per-slice-workflow.md](04-per-slice-workflow.md) | Step 6: Running phases A-J for each slice (+ comparative metrics) |
+| [04a-per-slice-workflow-phases-A-D.md](04a-per-slice-workflow-phases-A-D.md) | Step 6 detail: Phases A through D |
+| [04b-per-slice-workflow-phases-E-J.md](04b-per-slice-workflow-phases-E-J.md) | Step 6 detail: Phases E through J + Post-Push |
 | [05-browser-testing.md](05-browser-testing.md) | Step 6: Browser testing + session checklist |
 | [06-appendix.md](06-appendix.md) | Reference: file structure + naming conventions |
 | [skill-lifecycle-workflow.md](skill-lifecycle-workflow.md) | Skill management: find, create, promote, or combine skills |
