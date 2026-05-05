@@ -16,7 +16,7 @@ Copy the following from the Get Started template into the rebuild branch:
 
 - **Contracts** — all contract files (nuclear rules, workflow contracts, role contracts)
 - **Skills** — all skill files for CTO, Dev, QA Lead, etc.
-- **Review Templates** — peer review, QA swarm, Whiskey Team, Red Team templates
+- **Review Templates** — consolidated review files (`reviews/slice-{N}.md`), peer review, QA swarm, Red Team templates
 
 These are deployed as-is. The refactor does not modify the Get Started framework — it uses it.
 

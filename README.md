@@ -11,8 +11,8 @@ The framework enforces:
 - **CTO Orchestrator** (Opus) delegates all work — never writes code directly
 - **Test-first workflow** — tests are written by independent agents before any implementation code
 - **Multi-model peer review** — every slice reviewed by Gemini, OpenAI 5.5, Opus, and Grok independently (4-model adversarial)
-- **Adversarial QA** — Red Team, Professors, Whiskey Team, and UX Sense Check run on every slice
-- **10-phase slice lifecycle** (A through J) with mechanical gate checks at each transition
+- **Adversarial QA** — Red Team, Professors, and UX Sense Check (on-demand) run per slice; QA agents route through OpenAI 5.5 via `scripts/openai_qa.py`
+- **12-phase slice lifecycle** (A through J + Post-Push) with mechanical gate checks at each transition; Phases D, G, H folded into adjacent phases
 
 ## Quick Start
 
@@ -104,13 +104,10 @@ Every vertical slice follows this mandatory sequence:
 | **A.6** | User Scope Confirmation | User reviews and approves slice scope before Red Team and tests |
 | **A.7** | Red Team + Professor Pre-Build | Adversarial + domain-expert review of the user-confirmed plan before any code is written |
 | **B** | Test Specification | B.1: Gherkin audit. B.2: Test-writer agents write all tests (must be RED). B.3: Test peer review |
-| **C** | Implementation | Coder agents write code until all tests from Phase B pass |
-| **D** | Self-Reflection | Each coder re-reads their own code as a reviewer |
-| **E** | Peer Review | 4 independent external models review in parallel (Gemini, OpenAI 5.5, Opus, Grok) |
-| **F** | QA Swarm | Standard QA + Whiskey Team + UX Sense Check in parallel |
-| **F.5** | Runtime Log Check | Check Sentry, server logs, DB logs for errors surfaced during QA |
-| **G** | Autonomous Fix Verification | Autonomous Defect Resolution Protocol — QA agents fix inline, CTO verifies + handles escalations |
-| **H** | Regression | Full regression check + implicit behavior regression (6 categories) |
+| **C** | Implementation | Coder agents write code until all tests from Phase B pass; self-check folded in |
+| **E** | Peer Review | 4 independent external models review in parallel (Gemini, OpenAI 5.5, Opus, Grok); autonomous fix + regression folded in |
+| **F** | QA Swarm | QA agents (code-quality, data-integrity, security, uiux) via `scripts/openai_qa.py`; UX Sense Check on-demand |
+| **F.5** | Runtime Log Check | Check Sentry, server logs, DB logs for errors surfaced during QA (automated via relay-sentry MCP) |
 | **I** | Documentation | Scribe updates all affected docs |
 | **I.5** | User Delivery | CTO presents DONE slice to user with all QA results — user only sees fully-vetted work |
 | **J** | Gate Check | Mechanical verification that all artifacts exist |
@@ -121,9 +118,10 @@ Every vertical slice follows this mandatory sequence:
 - **Nuclear Rules**: Nine rules that override everything — CTO never writes code, peer review is mandatory, slices ship complete
 - **Operational Workflow (Articles 21-34)**: Git workflow, lint enforcement, sub-agent separation, QA sweep, BFF pattern, observability operations, planning decomposition, error diagnosis
 - **Test-First (Articles 17-18)**: Tests are written by independent test-writer agents *before* implementation. Different agents write tests vs. code. Test code also gets 4-model peer review
-- **Autonomous Defect Resolution Protocol**: Bug found → finding agent spawns fix sub-agent → AUDIT test → RED (must fail) → GREEN (fix code) → REGRESSION (full suite) → CLASS SCAN (fix all instances of same category) → COMMIT (atomic). Escalate to user only for architectural decisions, infrastructure changes, or 3x failure
+- **Consolidated Review File**: `reviews/slice-{N}.md` (six sections) replaces 7+ separate review artifacts; per-reviewer detail reports under `reviews/slice-{N}/`
+- **Autonomous Defect Resolution Protocol**: Bug found → finding agent spawns fix sub-agent → AUDIT test → RED → GREEN → REGRESSION → CLASS SCAN → COMMIT (atomic). Escalate to user only for architectural decisions, infrastructure changes, or 3x failure
 - **Skeletal Interfaces**: Architect defines function signatures and class stubs (`raise NotImplementedError`) so test-writers can import cleanly before implementation exists
-- **10 Review Artifacts Per Slice**: test-spec, test-review, peer-review, qa-swarm, red-team-pre-build, red-team, professor-pre-build, professor, whiskey-team, ux-sense-check (if frontend)
+- **Sentry Automation**: Phase F.5 + Post-Push automated via relay-sentry MCP polling (`getting-started/sentry-automation.md`)
 - **Code Architecture Standards (Article 20)**: Feature-based folder organization (20a), three-layer separation (20b), 150-line file limit (20c), display-only frontend (20d), structured logging (20e), error wrapping with context chaining (20f), P0/P1/P2 test priority (20g), and migration strategy (20h). These structural rules are the primary quality mechanism — when code is small and concerns are isolated, agents work better automatically
 
 ## Prerequisites
@@ -133,6 +131,7 @@ Every vertical slice follows this mandatory sequence:
 - API keys for peer review models (Gemini, OpenAI, Grok/xAI)
 - [OpenAI Codex CLI](https://developers.openai.com/codex) installed (`npm install -g @openai/codex`)
 - `scripts/openai_code.py` + `openai_code_lib.py` — OpenAI 5.5 coder shell invoked via Sonnet wrapper
+- `scripts/openai_qa.py` + `openai_qa_lib.py` — QA agent router (Phase F); run via `scripts/openai_code.py qa --check <type>`
 - `scripts/gate_check.py` + helpers — mechanical gate check with Sentry post-deploy scan (`scripts/sentry-release.sh` for Sentry CLI integration)
 - `peer-review-orchestrator` skill — fans out all 4 reviewers in parallel and collects results
 - `agent-browser` (Vercel) available for browser-based QA testing

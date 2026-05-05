@@ -9,11 +9,9 @@
 | Reviewer | Model | Findings | Critical | High | Medium | Low |
 |---|---|---|---|---|---|---|
 | Reviewer Gemini | {MODEL_VERSION} | {TOTAL} | {COUNT} | {COUNT} | {COUNT} | {COUNT} |
-| Reviewer OpenAI Codex | {MODEL_VERSION} | {TOTAL} | {COUNT} | {COUNT} | {COUNT} | {COUNT} |
+| Reviewer OpenAI 5.5 | {MODEL_VERSION} | {TOTAL} | {COUNT} | {COUNT} | {COUNT} | {COUNT} |
+| Reviewer Claude Opus 4.7 | Claude Opus 4.7 | {TOTAL} | {COUNT} | {COUNT} | {COUNT} | {COUNT} |
 | Reviewer Grok | {MODEL_VERSION} | {TOTAL} | {COUNT} | {COUNT} | {COUNT} | {COUNT} |
-| Reviewer Greptile (optional) | Greptile (codebase-aware) | {TOTAL} | {COUNT} | {COUNT} | {COUNT} | {COUNT} |
-
-> **Delete the Greptile row if `GREPTILE_API_KEY` is not configured.**
 
 **Consensus issues (2+ reviewers agree):** {COUNT} mandatory fixes
 **Single-reviewer issues:** {COUNT} recommended fixes (CTO judgment)
@@ -42,7 +40,7 @@
 
 ---
 
-## Reviewer OpenAI Codex Findings
+## Reviewer OpenAI 5.5 Findings
 
 ### Finding O-1: {TITLE}
 **Severity:** {CRITICAL / HIGH / MEDIUM / LOW}
@@ -62,11 +60,9 @@
 
 ---
 
-## Reviewer Greptile Findings (Optional)
+## Reviewer Claude Opus 4.7 Findings
 
-> **Delete this section if Greptile is not configured.**
-
-### Finding GR-1: {TITLE}
+### Finding OP-1: {TITLE}
 **Severity:** {CRITICAL / HIGH / MEDIUM / LOW}
 **File:** `{TEST_FILE_PATH}`
 **Issue:** {DESCRIPTION}
@@ -94,5 +90,6 @@
 
 - [ ] All mandatory fixes completed by test-writer sub-agents
 - [ ] Fixed tests re-validated (still RED against skeletal interfaces)
-- [ ] This file saved to `reviews/slice-{N}-test-review.md`
+- [ ] Findings written into Section 2 of `reviews/slice-{N}.md`
+- [ ] This detail file saved to `reviews/slice-{N}/test-review-{model}.md`
 - [ ] Ready to proceed to Phase C (Implementation)

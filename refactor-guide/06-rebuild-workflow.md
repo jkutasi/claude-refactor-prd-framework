@@ -17,15 +17,16 @@ This file documents the small additions that layer on top of the standard workfl
 Phases A through J are the same as any Get Started project:
 
 - **Phase A** — CTO plans the slice
-- **Phase B** — QA Lead writes test specs (Gherkin scenarios)
-- **Phase C** — Dev implements
-- **Phase D** — Self-reflection by coders
-- **Phase E** — Peer review (3+ external models)
-- **Phase F** — QA swarm + Whiskey Team + UX Sense Check
-- **Phase G** — Autonomous fix verification + Red Team escalation
-- **Phase H** — Regression + implicit behavior regression
+- **Phase A.7** — Red Team + Professor pre-build (optional; --high-risk flag)
+- **Phase B** — QA Lead writes test specs (Gherkin scenarios) + test peer review
+- **Phase C** — Dev implements (self-check folded in; all Phase B tests must pass)
+- **Phase E** — 4-model adversarial peer review (Gemini, OpenAI 5.5, Opus, Grok) + autonomous fix + regression
+- **Phase F** — QA swarm via `scripts/openai_qa.py`; UX Sense Check on-demand
+- **Phase F.5** — Runtime log check (Sentry, server, DB) automated via relay-sentry MCP
 - **Phase I** — Documentation update
+- **Phase I.5** — User delivery (CTO presents DONE slice — never draft)
 - **Phase J** — Gate check, slice completion
+- **Post-Push** — Error tracker + deployment logs + Greptile check
 
 Do not invent new phases. Do not skip phases. The refactor rebuild succeeds because it uses the same disciplined workflow as a greenfield project.
 
@@ -109,10 +110,9 @@ At rebuild completion (before cutover):
 
 Standard QA already handles quality verification through the Get Started workflow:
 
-- **Peer Review** — every slice gets peer reviewed
-- **QA Swarm** — test coverage validation
-- **Whiskey Team** — adversarial review
-- **Red Team** — security and edge case review
+- **Peer Review** — every slice gets 4-model adversarial peer review per Article 03
+- **QA Swarm** — test coverage validation via `scripts/openai_qa.py`
+- **Red Team** — security and edge case review (on-demand via --high-risk flag)
 
 These are not refactor-specific. They are the standard Get Started quality gates. The only refactor-specific additions are the comparative metrics and behavior coverage tracking described above.
 
