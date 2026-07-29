@@ -1,33 +1,17 @@
-# Refactor Guide — Document Map
+# Refactor Guide
 
-> **Purpose:** This is the DOCS_MAP for refactor-specific content. Load ONLY the files relevant to your current phase. Do not load the entire directory.
+Read `WORKFLOW.md` and `REFACTOR_WORKFLOW.md` first. Load only the current step.
 
-## Phase: Setup (Step 1)
-Load: [01-setup-reference-branch.md](01-setup-reference-branch.md)
+| Step | File | Outcome |
+|---|---|---|
+| 1 | [01-setup-reference-branch.md](01-setup-reference-branch.md) | Immutable snapshot and verified reference worktree |
+| 2 | [02-codebase-assessment.md](02-codebase-assessment.md) | Evidence-based inventory, dependency, debt, and risk maps |
+| 3 | [03-feature-decomposition.md](03-feature-decomposition.md) | User-approved strategy and reversible increment order |
+| 4a | [04a-gherkin-broad-extraction.md](04a-gherkin-broad-extraction.md) | Observed behavior inventory with confidence and sources |
+| 4b | [04b-gherkin-review-and-chunking.md](04b-gherkin-review-and-chunking.md) | User decisions and executable parity mapping |
+| 5 | [05-bootstrap-rebuild.md](05-bootstrap-rebuild.md) | Safe working branch/worktree and configured checks |
+| 6 | [06-rebuild-workflow.md](06-rebuild-workflow.md) | Small verified refactor increments |
+| 7 | [07-cutover-archive.md](07-cutover-archive.md) | Approved cutover, monitoring, rollback, and archive |
 
-## Phase: Assessment (Step 2)
-Load: [02-codebase-assessment.md](02-codebase-assessment.md)
-Load: `assessment-templates/` (all 5)
-
-## Phase: Decomposition (Step 3)
-Load: [03-feature-decomposition.md](03-feature-decomposition.md)
-Load: `decomposition-templates/` (both)
-
-## Phase: Gherkin Extraction (Step 4)
-Load: [04a-gherkin-broad-extraction.md](04a-gherkin-broad-extraction.md) — Pass 1: broad extraction from old code
-Load: [04b-gherkin-review-and-chunking.md](04b-gherkin-review-and-chunking.md) — User review + Pass 2: chunking per slice
-Load: `gherkin-templates/` (both)
-
-## Phase: Bootstrap Rebuild (Step 5)
-Load: [05-bootstrap-rebuild.md](05-bootstrap-rebuild.md)
-Load: `getting-started/03-slice-0-bootstrap.md`
-
-## Phase: Rebuild (Step 6)
-Load: [06-rebuild-workflow.md](06-rebuild-workflow.md)
-Load: `getting-started/04-per-slice-workflow.md`
-Load: `regression-templates/BEHAVIOR-COVERAGE-MATRIX-TEMPLATE.md`
-Load: `regression-templates/COMPARATIVE-METRICS-TEMPLATE.md`
-
-## Phase: Cutover (Step 7)
-Load: [07-cutover-archive.md](07-cutover-archive.md)
-Load: `cutover-templates/CUTOVER-CHECKLIST-TEMPLATE.md`
+The filenames for steps 5 and 6 are retained for compatibility. Their workflow is
+incremental-first; a full rebuild is never assumed.

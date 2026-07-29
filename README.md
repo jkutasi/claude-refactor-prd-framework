@@ -1,141 +1,59 @@
-# Claude Get-Started PRD Framework
+# Refactor Existing Project Template
 
-A multi-agent project template for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with [Agent Teams](https://docs.anthropic.com/en/docs/claude-code/agent-teams). It defines the structure, contracts, QA process, and delivery model for building software with AI agents that orchestrate, code, review, and test — with enforced separation of concerns.
+A lean AI-assisted workflow for safely improving an existing software project.
+It mirrors the model routing and risk controls in the New Project template while
+adding assessment, behavior-parity, migration, rollback, and cutover discipline.
 
-## What This Is
+## Model Roles
 
-This is a **methodology template**, not a code library. Copy the entire folder into a new project workspace, replace the `{PLACEHOLDER}` values with your project specifics, and Claude Code uses it as its operating contract.
+| Model | Role |
+|---|---|
+| Claude Fable 5 | Default orchestrator |
+| GPT-5.6 Sol | Alternate orchestrator and independent frontier reviewer |
+| Claude Sonnet 5 | Bounded implementation worker |
+| Claude Haiku 4.5 | Mechanically verifiable utility worker |
 
-The framework enforces:
+Only Fable or Sol may orchestrate. Normal changes use deterministic checks without
+AI peer review. High-risk changes use the other non-author frontier model.
 
-- **CTO Orchestrator** (Opus) delegates all work — never writes code directly
-- **Test-first workflow** — tests are written by independent agents before any implementation code
-- **Multi-model peer review** — every slice reviewed by Gemini, OpenAI 5.5, Opus, and Grok independently (4-model adversarial)
-- **Adversarial QA** — Red Team, Professors, and UX Sense Check (on-demand) run per slice; QA agents route through OpenAI 5.5 via `scripts/openai_qa.py`
-- **12-phase slice lifecycle** (A through J + Post-Push) with mechanical gate checks at each transition; Phases D, G, H folded into adjacent phases
+## Refactor Principles
 
-## Quick Start
+- Preserve an immutable snapshot before changing behavior.
+- Prefer small, reversible improvements to a full rebuild.
+- A full rebuild requires explicit user approval and a demonstrated rollback plan.
+- Extract observed behavior, but do not mistake written Gherkin for an executable test.
+- Require user approval before correcting or dropping existing behavior.
+- Verify behavior, data, operations, and rollback before cutover.
 
-1. **Copy** this entire folder into your new project workspace
-2. **Open** `getting-started/INDEX.md` — it's the sequential roadmap, follow it step by step
-3. **Replace** all `{PLACEHOLDER}` values with your project specifics (tech stack, project name, paths, etc.)
-4. **Set up** `.env` with API keys for peer review models (Gemini, OpenAI/Codex, Grok/xAI)
-5. **Enable** Agent Teams: set `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
-6. **Start** Claude Code — it reads the contracts and operates within them
+## Start Here
 
-## Repository Structure
+1. Read [WORKFLOW.md](WORKFLOW.md) for shared model, privacy, risk, and review rules.
+2. Read [REFACTOR_WORKFLOW.md](REFACTOR_WORKFLOW.md) for the refactor lifecycle.
+3. Follow [refactor-guide/INDEX.md](refactor-guide/INDEX.md) one step at a time.
+4. Customize [workflow.config.json](workflow.config.json) and copy
+   [refactor-state.example.json](refactor-state.example.json) to
+   `refactor-state.json`.
+5. Run:
 
-```
-.
-├── getting-started/                     # Roadmap — start with INDEX.md
-│   ├── INDEX.md                        # Table of contents
-│   ├── 00-nuclear-rules.md            # Nine rules that override everything
-│   ├── 01-planning-phase.md           # Step 1: User story, tech stack, slices
-│   ├── 02-agent-teams.md             # Step 2: Agent Teams architecture
-│   ├── 03-slice-0-bootstrap.md       # Step 3: Create everything before code
-│   ├── 04-per-slice-workflow.md      # Step 4: Phases A-J
-│   ├── 05-browser-testing.md         # Step 5: Browser testing + session checklist
-│   └── 06-appendix.md               # File structure reference + naming
-│
-├── contract-templates/                  # The rules of engagement
-│   ├── CLAUDE-MD-TEMPLATE.md          # Core contract (loaded at session start)
-│   ├── ARCHITECTURE-STANDARDS-TEMPLATE.md  # Feature folders, layers, 150-line, observability
-│   ├── CONTRIBUTING-TEMPLATE.md       # Code standards, commit convention
-│   ├── SECURITY-TEMPLATE.md          # API keys, OWASP, access control
-│   ├── DATA-CONTRACT-TEMPLATE.md     # Schemas, versioning, migration
-│   ├── TESTING-PYRAMID-TEMPLATE.md   # Testing pyramid, coverage, Gherkin, edge cases
-│   ├── TESTING-PROCEDURES-TEMPLATE.md # Test-first protocol, peer review, QA procedures
-│   ├── TESTING-GATES-TEMPLATE.md     # Defect resolution, browser testing, gate checklist
-│   └── articles/                      # One file per contract article
-│       ├── INDEX.md                   # Article listing
-│       ├── article-01-code-authorship.md
-│       ├── ...                        # Articles 02-20
-│       ├── article-20-code-architecture.md
-│       ├── article-21-commit-push.md
-│       ├── ...                        # Articles 22-33
-│       └── article-34-error-diagnosis.md
-│
-├── skill-templates/                    # Agent role definitions (one file per agent)
-│   ├── cto-orchestrator.md           # Tier 1: CTO — orchestrates everything
-│   ├── qa-lead.md                    # Tier 1: QA Lead — coordinates all QA
-│   ├── coder-backend.md              # Tier 2: Backend coder
-│   ├── coder-frontend.md             # Tier 2: Frontend coder
-│   ├── reviewer-{gemini,openai,grok}.md            # Peer reviewers (4-model adversarial)
-│   ├── red-team-reviewer.md          # Adversarial review (10 attack dimensions)
-│   ├── whiskey-team-adversarial-qa.md # Adversarial end-to-end QA
-│   ├── ux-sense-check.md             # Persona-based UX testing
-│   ├── qa-{stats,code-quality,data-integrity,security,uiux-browser}.md  # QA specialists
-│   ├── qa-manager.md                 # QA synthesis formatter
-│   ├── documentation-scribe.md       # Documentation updates
-│   ├── researcher.md                 # External research
-│   ├── relay-{mcp-pattern,qmd}.md    # MCP relay patterns
-│   └── prof-*.md                     # 15 Professor domain-expert agents
-│
-├── review-templates/                   # Artifact templates for review outputs
-│   ├── TEST-SPEC-TEMPLATE.md         # Gherkin audit + test specification
-│   ├── TEST-REVIEW-TEMPLATE.md       # Test code peer review findings
-│   ├── PEER-REVIEW-TEMPLATE.md       # Implementation code peer review
-│   ├── QA-SWARM-TEMPLATE.md          # QA swarm synthesis
-│   ├── RED-TEAM-REVIEW-TEMPLATE.md   # Red team findings
-│   ├── PROFESSOR-REVIEW-TEMPLATE.md  # Professor domain-expert findings
-│   ├── WHISKEY-TEAM-TEMPLATE.md      # Whiskey team findings
-│   └── UX-SENSE-CHECK-TEMPLATE.md    # UX sense check findings
-│
-├── examples/                           # Reference examples
-│   ├── mermaid-diagrams.md           # Mermaid diagram templates (7 types)
-│   ├── gherkin-examples.md           # Gherkin scenario examples
-│   ├── gate_check.py                 # Mechanical gate check script
-│   └── project-diary-template.md     # Project diary format
-│
-└── reference/                          # Supporting reference docs
-    ├── agent-registry-template.md    # Agent role assignments
-    ├── config-schema-template.md     # Configuration schema
-    └── naming-conventions.md         # Article 10 naming rules
+```text
+python scripts/gate_check.py --change-id <id> --orchestrator fable
 ```
 
-## Per-Slice Workflow (Phases A–J)
+Use `--orchestrator sol` when Sol is active.
 
-Every vertical slice follows this mandatory sequence:
+## Useful Refactor Assets
 
-| Phase | Name | What Happens |
-|-------|------|-------------|
-| **A** | Preparation | CTO reviews requirements, researcher gathers docs |
-| **A.5** | Doc Bootstrap + Diagrams | Slice 0: docs + high-level diagrams. Slices 1+: per-slice diagrams |
-| **A.6** | User Scope Confirmation | User reviews and approves slice scope before Red Team and tests |
-| **A.7** | Red Team + Professor Pre-Build | Adversarial + domain-expert review of the user-confirmed plan before any code is written |
-| **B** | Test Specification | B.1: Gherkin audit. B.2: Test-writer agents write all tests (must be RED). B.3: Test peer review |
-| **C** | Implementation | Coder agents write code until all tests from Phase B pass; self-check folded in |
-| **E** | Peer Review | 4 independent external models review in parallel (Gemini, OpenAI 5.5, Opus, Grok); autonomous fix + regression folded in |
-| **F** | QA Swarm | QA agents (code-quality, data-integrity, security, uiux) via `scripts/openai_qa.py`; UX Sense Check on-demand |
-| **F.5** | Runtime Log Check | Check Sentry, server logs, DB logs for errors surfaced during QA (automated via relay-sentry MCP) |
-| **I** | Documentation | Scribe updates all affected docs |
-| **I.5** | User Delivery | CTO presents DONE slice to user with all QA results — user only sees fully-vetted work |
-| **J** | Gate Check | Mechanical verification that all artifacts exist |
-| **Post-Push** | Post-Push Verification | Check error tracker and deployment logs after every push |
+- `assessment-templates/`: inventory, feature, dependency, debt, and risk analysis.
+- `decomposition-templates/`: bounded increment mapping and dependency order.
+- `gherkin-templates/`: optional human-readable behavior specifications.
+- `regression-templates/`: behavior coverage and comparative evidence.
+- `cutover-templates/`: high-risk cutover and rollback checklist.
+- `.claude/settings.json`: wires the short session-start routing reminder.
 
-## Key Concepts
+## Safety Defaults
 
-- **Nuclear Rules**: Nine rules that override everything — CTO never writes code, peer review is mandatory, slices ship complete
-- **Operational Workflow (Articles 21-34)**: Git workflow, lint enforcement, sub-agent separation, QA sweep, BFF pattern, observability operations, planning decomposition, error diagnosis
-- **Test-First (Articles 17-18)**: Tests are written by independent test-writer agents *before* implementation. Different agents write tests vs. code. Test code also gets 4-model peer review
-- **Consolidated Review File**: `reviews/slice-{N}.md` (six sections) replaces 7+ separate review artifacts; per-reviewer detail reports under `reviews/slice-{N}/`
-- **Autonomous Defect Resolution Protocol**: Bug found → finding agent spawns fix sub-agent → AUDIT test → RED → GREEN → REGRESSION → CLASS SCAN → COMMIT (atomic). Escalate to user only for architectural decisions, infrastructure changes, or 3x failure
-- **Skeletal Interfaces**: Architect defines function signatures and class stubs (`raise NotImplementedError`) so test-writers can import cleanly before implementation exists
-- **Sentry Automation**: Phase F.5 + Post-Push automated via relay-sentry MCP polling (`getting-started/sentry-automation.md`)
-- **Code Architecture Standards (Article 20)**: Feature-based folder organization (20a), three-layer separation (20b), 150-line file limit (20c), display-only frontend (20d), structured logging (20e), error wrapping with context chaining (20f), P0/P1/P2 test priority (20g), and migration strategy (20h). These structural rules are the primary quality mechanism — when code is small and concerns are isolated, agents work better automatically
-
-## Prerequisites
-
-- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) installed
-- Agent Teams enabled (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`)
-- API keys for peer review models (Gemini, OpenAI, Grok/xAI)
-- [OpenAI Codex CLI](https://developers.openai.com/codex) installed (`npm install -g @openai/codex`)
-- `scripts/openai_code.py` + `openai_code_lib.py` — OpenAI 5.5 coder shell invoked via Sonnet wrapper
-- `scripts/openai_qa.py` + `openai_qa_lib.py` — QA agent router (Phase F); run via `scripts/openai_code.py qa --check <type>`
-- `scripts/gate_check.py` + helpers — mechanical gate check with Sentry post-deploy scan (`scripts/sentry-release.sh` for Sentry CLI integration)
-- `peer-review-orchestrator` skill — fans out all 4 reviewers in parallel and collects results
-- `agent-browser` (Vercel) available for browser-based QA testing
-
-## License
-
-Private — for internal team use only.
+- Incremental refactoring is the default strategy.
+- Cutover, data migration, auth, infrastructure, and behavior removal are high-risk.
+- Missing refactor-state evidence fails closed.
+- Provider approval and retention policy are checked before repository content is sent.
+- A refusal stops for user review; it is not silently retried through another provider.

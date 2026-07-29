@@ -21,6 +21,7 @@ desktop.ini
 .claude/*
 !.claude/skills/
 !.claude/agents/
+!.claude/settings.json
 
 # Python
 __pycache__/
@@ -39,8 +40,7 @@ build/
 # Logs
 *.log
 
-# gate_check local config (may contain tokens/slugs — .example.json IS committed)
-gate_check.config.json
-
 # Per-run session artifacts (local audit logs — never commit)
 .artifacts/
+.ai-workflow/
+workflow.config.local.json

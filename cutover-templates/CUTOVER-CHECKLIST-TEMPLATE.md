@@ -1,55 +1,42 @@
 # Cutover Checklist — {PROJECT_NAME}
 
-> **Purpose:** Verify everything is complete before archiving refactor scaffolding. ALL items must be checked before proceeding with cutover.
+Cutover is high-risk and requires independent non-author frontier sign-off.
 
-## Pre-Cutover Gates
+## Preconditions
 
-All must be true:
+- [ ] Original requirements and intended behaviors are accounted for.
+- [ ] All applicable deterministic checks pass.
+- [ ] Executable parity commands pass.
+- [ ] CORRECT and DROP decisions have explicit user approval.
+- [ ] Data reconciliation is PASS or NOT_REQUIRED.
+- [ ] Deployment and smoke commands are recorded.
+- [ ] Rollback has been rehearsed safely; evidence: {reference}.
+- [ ] Monitoring window: {duration}; owner: {person/role}.
+- [ ] User approved cutover; evidence: {reference}.
+- [ ] Exact diff has independent frontier approval.
 
-| Gate | Status | Evidence |
-|------|--------|----------|
-| All slices complete (passed Get Started A-J gates) | [ ] | gate_check.py PASS for all slices |
-| Behavior Coverage Matrix = 100% | [ ] | refactor/behavior-coverage-matrix.md |
-| All Gherkin scenarios pass | [ ] | Test suite output |
-| User acceptance testing complete | [ ] | User confirmed |
-| Comparative metrics show improvement | [ ] | refactor/comparative-metrics.md |
-| Data migration complete (if applicable) | [ ] | Migration script tested, data verified |
+## Execution
 
-## Cutover Steps
+| Order | Action | Command/Owner | Expected Result | Stop/Rollback Trigger |
+|---:|---|---|---|---|
+| 1 | {action} | {command/owner} | {result} | {trigger} |
 
-Execute in order:
+Resolve and verify every destructive target before execution. Do not use unresolved
+variables, broad directories, or implicit branch/worktree names.
 
-### 1. Remove CLAUDE.md Refactor Addendum
-- [ ] Open the project's `CLAUDE.md`
-- [ ] Remove the `## REFACTOR ADDENDUM (TEMPORARY)` section entirely
-- [ ] Verify CLAUDE.md reads as a standard Get Started contract
+## Monitoring
 
-### 2. Archive Refactor Scaffolding
-- [ ] Create `archive/refactor/` directory
-- [ ] Move `refactor/assessment/` → `archive/refactor/assessment/`
-- [ ] Move `refactor/decomposition/` → `archive/refactor/decomposition/`
-- [ ] Move `refactor/gherkin/broad-behavior-spec.md` → `archive/refactor/`
-- [ ] Move `refactor/templates/` → `archive/refactor/templates/`
-- [ ] Move `refactor/behavior-coverage-matrix.md` → `archive/refactor/`
-- [ ] Move `refactor/comparative-metrics.md` → `archive/refactor/`
-- [ ] Move `REFACTOR_CONFIG.md` → `archive/refactor/`
-- [ ] Remove empty `refactor/` directory
+- [ ] Deploy/smoke checks pass.
+- [ ] Critical logs and alerts remain clear.
+- [ ] Data integrity checks pass.
+- [ ] Business and user signals match expectations.
 
-### 3. Remove Reference Branch Worktree
-- [ ] Run: `git worktree remove {WORKTREE_PATH}`
-- [ ] Verify worktree is removed: `git worktree list`
+Any failed critical check triggers rollback unless the user explicitly directs
+otherwise.
 
-### 4. Keep Reference Branch
-- [ ] Verify `reference/old-code` branch exists: `git branch -a`
-- [ ] Do NOT delete this branch — it is the historical record
+## Archive
 
-### 5. Final Verification
-- [ ] Project runs correctly without any refactor scaffolding
-- [ ] CLAUDE.md contains no refactor references
-- [ ] No refactor-specific files outside `archive/refactor/`
-- [ ] Standard Get Started gate_check.py passes
-- [ ] Claude Code reads CLAUDE.md without encountering refactor context
-
-## Post-Cutover
-
-The project is now a standard Get Started framework project. Future development follows the standard Get Started per-slice workflow (Phases A-J). The refactor is complete.
+- [ ] Keep the immutable tag/reference branch.
+- [ ] Keep durable behavior, migration, rollback, and review records.
+- [ ] Archive temporary analysis only after monitoring passes.
+- [ ] Remove a worktree only after its exact path and clean state are verified.

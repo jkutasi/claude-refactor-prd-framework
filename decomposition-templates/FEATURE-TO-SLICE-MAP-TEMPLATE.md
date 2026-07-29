@@ -1,57 +1,30 @@
-# Feature-to-Slice Map
+# Feature-to-Increment Map — {PROJECT_NAME}
 
-Maps old features to new narrow vertical slices. Produced during Step 3 (Feature Decomposition).
+> Filename retained for compatibility. An increment is a small, reversible refactor
+> outcome; it is not tied to a legacy workflow phase.
 
----
+| Increment | Outcome | Existing Paths | Allowed New/Changed Paths | Behaviors | Data Effect | Risk | Verification | Rollback |
+|---|---|---|---|---|---|---|---|---|
+| R-001 | {outcome} | {paths} | {paths} | {IDs} | {none/details} | {normal/high} | {commands} | {command} |
 
-## {FEATURE_NAME}
+## Strategy
 
-**Old Feature:** {FEATURE_NAME}
+- Type: {incremental/rebuild}
+- Rationale: {evidence}
+- User approval required: {yes/no}
+- Approval evidence: {reference}
 
-**Old code location:** {FILE_PATHS_IN_REFERENCE_BRANCH}
+## Behavior Decisions
 
-**What it does:** {DESCRIPTION_FROM_ASSESSMENT}
+| Behavior ID | Decision | Reason | User Approval | Executable Check |
+|---|---|---|---|---|
+| B-001 | PRESERVE | {reason} | N/A | {command} |
 
-**Concerns identified:**
-- {CONCERN_1}
-- {CONCERN_2}
-- {CONCERN_3}
+`CORRECT` and `DROP` decisions require explicit user approval.
 
-### Decomposed into Slices
+## Boundaries
 
-| New Slice | Concern | Layer(s) | Dependencies | Priority |
-|-----------|---------|----------|-------------|----------|
-| Slice {N}: {NAME} | {NARROW_CONCERN} | {route/service/repo} | Slice {X} | {P0/P1/P2} |
-
-### Behavior Changes (User-Approved)
-
-| Old Behavior | New Behavior | Reason for Change |
-|-------------|-------------|-------------------|
-| {OLD_BEHAVIOR} | {NEW_BEHAVIOR} | {REASON} |
-
----
-
-## {FEATURE_NAME}
-
-**Old Feature:** {FEATURE_NAME}
-
-**Old code location:** {FILE_PATHS_IN_REFERENCE_BRANCH}
-
-**What it does:** {DESCRIPTION_FROM_ASSESSMENT}
-
-**Concerns identified:**
-- {CONCERN_1}
-- {CONCERN_2}
-- {CONCERN_3}
-
-### Decomposed into Slices
-
-| New Slice | Concern | Layer(s) | Dependencies | Priority |
-|-----------|---------|----------|-------------|----------|
-| Slice {N}: {NAME} | {NARROW_CONCERN} | {route/service/repo} | Slice {X} | {P0/P1/P2} |
-
-### Behavior Changes (User-Approved)
-
-| Old Behavior | New Behavior | Reason for Change |
-|-------------|-------------|-------------------|
-| {OLD_BEHAVIOR} | {NEW_BEHAVIOR} | {REASON} |
+- One writer/worktree per active increment.
+- Non-overlapping path ownership.
+- Compatibility or feature-flag plan: {details}
+- Dependencies that must land first: {IDs}

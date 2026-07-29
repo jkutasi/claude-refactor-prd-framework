@@ -1,53 +1,21 @@
-# Slice Dependency Order
+# Increment Dependency Order — {PROJECT_NAME}
 
-Determines the build sequence for the rebuild. Produced during Step 3 (Feature Decomposition).
+> Filename retained for compatibility.
 
----
+| Order | Increment | Depends On | Can Run in Parallel | Risk | Reason |
+|---:|---|---|---|---|---|
+| 1 | R-001 | None | {IDs/No} | {normal/high} | {reason} |
 
-## Build Phases
+## Dependency Rules
 
-| Build Phase | Slice | Dependencies | Estimated Complexity |
-|-------------|-------|-------------|---------------------|
-| Phase 1 | Slice {N}: {NAME} | None (foundation) | {LOW/MEDIUM/HIGH} |
-| Phase 2 | Slice {N}: {NAME} | Slice {X} | {LOW/MEDIUM/HIGH} |
-| Phase {N} | Slice {N}: {NAME} | Slice {X}, Slice {Y} | {LOW/MEDIUM/HIGH} |
+- Prefer vertical, independently verifiable increments.
+- Separate schema expansion, data movement, application switching, and cleanup.
+- Do not run parallel writers on overlapping paths or migration state.
+- High-risk predecessors must have independent frontier sign-off before dependents
+  integrate.
 
----
+## Recovery Points
 
-## Phase Descriptions
-
-### Phase 1 — Foundation
-
-Foundation slices with no dependencies. These are built first.
-
-- Slice {N}: {NAME} — {BRIEF_DESCRIPTION}
-
-### Phase 2
-
-Slices depending only on Phase 1.
-
-- Slice {N}: {NAME} — {BRIEF_DESCRIPTION}
-
-### Phase {N}
-
-Slices depending on prior phases.
-
-- Slice {N}: {NAME} — {BRIEF_DESCRIPTION}
-
----
-
-## Dependency Diagram
-
-```mermaid
-graph TD
-    S1[Slice 1: {NAME}] --> S3[Slice 3: {NAME}]
-    S2[Slice 2: {NAME}] --> S3
-    S3 --> S5[Slice 5: {NAME}]
-    S4[Slice 4: {NAME}] --> S5
-```
-
----
-
-## Notes on Critical Path
-
-{IDENTIFY_THE_LONGEST_CHAIN_OF_DEPENDENCIES_AND_ANY_BOTTLENECKS}
+| After Increment | Recovery Reference | Rollback Command | Demonstrated |
+|---|---|---|---|
+| R-001 | {commit/flag/deploy} | {command} | {yes/evidence} |

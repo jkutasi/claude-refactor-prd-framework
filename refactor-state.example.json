@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "stage": "snapshot",
+  "snapshot": {
+    "commit": "<full-commit-sha>",
+    "tag": "refactor/baseline-YYYY-MM-DD",
+    "reference_branch": "reference/old-code",
+    "reference_worktree": "<absolute-or-repository-relative-path>",
+    "verified": false
+  },
+  "strategy": {
+    "type": "incremental",
+    "rationale": "Why this strategy is appropriate",
+    "approved_by_user": false,
+    "approval_evidence": null
+  },
+  "baseline": {
+    "behavior_inventory": "refactor/behavior-inventory.md",
+    "parity_commands": [],
+    "gherkin_executable": false,
+    "gherkin_command": null
+  },
+  "increment": {
+    "id": null,
+    "allowed_paths": [],
+    "verification_commands": [],
+    "rollback_command": null
+  },
+  "cutover": {
+    "verification_status": null,
+    "data_reconciliation": "NOT_REQUIRED",
+    "rollback_rehearsed": false,
+    "rollback_evidence": null,
+    "monitoring_window": null,
+    "monitoring_owner": null,
+    "approved_by_user": false,
+    "approval_evidence": null
+  }
+}
